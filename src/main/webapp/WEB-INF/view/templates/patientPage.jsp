@@ -1,4 +1,5 @@
-<#import "parts/form-action.ftl" as fa>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <!DOCTYPE html>
 <html lang="en ru uk" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -34,7 +35,6 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <form action="/logout" method="post">
-                    <input type="hidden" name="_csrf" value="${_csrf.token}">
                     <input type="submit" value="Sign Out"/>
                 </form>
             </li>
@@ -112,8 +112,8 @@
                     </div>
                     <div class="panel-body">
                         <div class="text-center" id="author">
-                        <img src="${patientData.photo}" width="300" height="300">
-                            <h3>${patientData.surname} ${patientData.name} ${patientData.patronymic}</h3>
+                        <img src="${sessionScope.user.photo}" width="300" height="300">
+                            <h3>${sessionScope.user.surname} ${sessionScope.user.name} ${sessionScope.user.patronymic}</h3>
                         </div>
                     </div>
                 </div>
@@ -133,15 +133,15 @@
                                     <tbody>
                                     <tr>
                                         <td class="active">Birth date:</td>
-                                        <td>${patientData.birthDate}</td>
+                                        <td>${sessionScope.user.birthDate}</td>
                                     </tr>
                                     <tr>
                                         <td class="active">Phone number:</td>
-                                        <td>${patientData.phone}</td>
+                                        <td>${sessionScope.user.phone}</td>
                                     </tr>
                                     <tr>
                                         <td class="active">Email:</td>
-                                        <td>${patientData.email}</td>
+                                        <td>${sessionScope.user.email}</td>
                                     </tr>
                                     <tr>
                                         <td class="active">Attending doctor:</td>

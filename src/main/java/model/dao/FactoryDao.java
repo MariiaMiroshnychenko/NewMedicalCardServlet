@@ -12,9 +12,9 @@ public abstract class FactoryDao {
 //    public abstract EntityDao<MedicalEmployee> getMedicalEmployeeJdbcDao();
 //    public abstract EntityDao<Patient> getPatientJdbcDao();
 //    public abstract EntityDao<PatientVisit> getPatientVisitJdbcDao();
-    public abstract PersonalRegDataDao<PersonalRegData> getPersonalRegDataJdbcDao();
+    public abstract PersonalRegDataDao getPersonalRegDataJdbcDao();
 //    public abstract EntityDao<Referral> getReferralJdbcDao();
-//    public abstract EntityDao<Role> getRoleJdbcDao();
+    public abstract RoleDao getRoleJdbcDao();
 
     public static FactoryDao getInstance() {
         if (!factory.isPresent()) {

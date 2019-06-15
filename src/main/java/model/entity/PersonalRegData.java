@@ -11,10 +11,6 @@ public class PersonalRegData {
     private String patronymic;
 
     private Date birthDate;
-    private String passSeries;
-    private String passNumber;
-    private String identCode;
-
     private String phone;
     private String email;
     private String login;
@@ -53,8 +49,7 @@ public class PersonalRegData {
 //    }
 
     public PersonalRegData(Integer id, String surname, String name,
-                           String patronymic, Date birthDate, String passSeries,
-                           String passNumber, String identCode, String phone,
+                           String patronymic, Date birthDate, String phone,
                            String email, String login, String password,
                            Integer roleId, boolean enabled, String photo) {
         this.id = id;
@@ -62,9 +57,6 @@ public class PersonalRegData {
         this.name = name;
         this.patronymic = patronymic;
         this.birthDate = birthDate;
-        this.passSeries = passSeries;
-        this.passNumber = passNumber;
-        this.identCode = identCode;
         this.phone = phone;
         this.email = email;
         this.login = login;
@@ -115,30 +107,6 @@ public class PersonalRegData {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
-    }
-
-    public String getPassSeries() {
-        return passSeries;
-    }
-
-    public void setPassSeries(String passSeries) {
-        this.passSeries = passSeries;
-    }
-
-    public String getPassNumber() {
-        return passNumber;
-    }
-
-    public void setPassNumber(String passNumber) {
-        this.passNumber = passNumber;
-    }
-
-    public String getIdentCode() {
-        return identCode;
-    }
-
-    public void setIdentCode(String identCode) {
-        this.identCode = identCode;
     }
 
     public String getPhone() {
@@ -232,9 +200,6 @@ public class PersonalRegData {
                 Objects.equals(name, that.name) &&
                 Objects.equals(patronymic, that.patronymic) &&
                 Objects.equals(birthDate, that.birthDate) &&
-                Objects.equals(passSeries, that.passSeries) &&
-                Objects.equals(passNumber, that.passNumber) &&
-                Objects.equals(identCode, that.identCode) &&
                 Objects.equals(phone, that.phone) &&
                 Objects.equals(email, that.email) &&
                 Objects.equals(login, that.login) &&

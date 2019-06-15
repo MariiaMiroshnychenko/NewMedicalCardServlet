@@ -1,4 +1,5 @@
-<#import "parts/form-action.ftl" as fa>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <!DOCTYPE html>
 <html lang="en ru uk" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -109,10 +110,10 @@
                     </div>
                     <div class="panel-body">
                         <div class="text-center" id="author">
-                        <img src="${medicalEmployee.person.photo}" width="300" height="300">
-                            <h3>${medicalEmployee.person.surname}
-                                ${medicalEmployee.person.name}
-                                ${medicalEmployee.person.patronymic}</h3>
+                        <img src="${sessionScope.user.person.photo}" width="300" height="300">
+                            <h3>${sessionScope.user.person.surname}
+                                ${sessionScope.user.person.name}
+                                ${sessionScope.user.person.patronymic}</h3>
                         </div>
                     </div>
                 </div>
@@ -130,15 +131,15 @@
                                     <tbody>
                                     <tr>
                                         <td class="active">Birth date:</td>
-                                        <td>${medicalEmployee.person.birthDate}</td>
+                                        <td>${sessionScope.user.person.birthDate}</td>
                                     </tr>
                                     <tr>
                                         <td class="active">Phone number:</td>
-                                        <td>${medicalEmployee.person.phone}</td>
+                                        <td>${sessionScope.user.person.phone}</td>
                                     </tr>
                                     <tr>
                                         <td class="active">Email:</td>
-                                        <td>${medicalEmployee.person.email}</td>
+                                        <td>${sessionScope.user.person.email}</td>
                                     </tr>
                                     </tbody>
                                 </table>

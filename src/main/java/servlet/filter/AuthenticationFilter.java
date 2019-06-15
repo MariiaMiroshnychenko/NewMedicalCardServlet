@@ -1,7 +1,9 @@
 package servlet.filter;
 
 import model.dao.PersonalRegDataDao;
+import model.dao.RoleDao;
 import model.entity.PersonalRegData;
+import model.entity.Role;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +30,9 @@ public class AuthenticationFilter implements Filter {
         @SuppressWarnings("unchecked") final AtomicReference<PersonalRegDataDao> personalRegDataDao =
                 (AtomicReference<PersonalRegDataDao>) request.getServletContext()
                         .getAttribute("personalRegDataDao");
+        @SuppressWarnings("unchecked") final AtomicReference<RoleDao> roleDao =
+                (AtomicReference<RoleDao>) request.getServletContext()
+                        .getAttribute("roleDao");
 
         final HttpSession session = request.getSession();
         System.out.println(login);
@@ -37,15 +42,12 @@ public class AuthenticationFilter implements Filter {
                 Objects.nonNull(session.getAttribute("user")) &&
                 Objects.nonNull(session.getAttribute("role"))) {
 
-//            final String role = (String) session.getAttribute("role");
-
-//            redirectToAccount(request, response, role);
             filterChain.doFilter(request, response);
         } else if (Objects.nonNull(personalRegDataDao.get().findPersonalRegDataByLoginAndPassword(login, password))) {
 
             final PersonalRegData personalRegData = personalRegDataDao.get()
                     .findPersonalRegDataByLoginAndPassword(login, password);
-            final String role = personalRegDataDao.get().findRoleTitleByLoginAndPassword(login, password);
+            final String role = roleDao.get().findRoleTitleByLoginAndPassword(login, password).getTitle();
 
             request.getSession().setAttribute("user", personalRegData);
             request.getSession().setAttribute("role", role);

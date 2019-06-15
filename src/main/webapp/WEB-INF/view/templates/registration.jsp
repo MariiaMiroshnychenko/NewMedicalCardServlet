@@ -1,3 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en ru uk" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -47,17 +49,6 @@
             <td>Birth date : </td>
             <td><input type="date" class="form-control" name="birthDate"/></td>
         </tr>
-        <tr>
-            <td>Passport series : </td>
-            <td><input type="text" class="form-control" name="passSeries"/></td>
-        </tr>
-        <tr>
-            <td>User Passport number : </td>
-            <td><input type="text" class="form-control" name="passNumber"/></td>
-        </tr>
-        <tr>
-            <td>Identify code : </td>
-            <td><input type="text" class="form-control" name="identCode"/></td>
         </tr>
         <tr>
             <td>Phone number : </td>
@@ -83,7 +74,7 @@
             <td> If you`re medical employee,
                 please, choose your specialty</td>
             <td>
-                <select title="speciality" name="speciality">
+                <select title="speciality" name="docSpeciality">
                     <option value="Лікар-акушер-гінеколог">Лікар-акушер-гінеколог</option>
                     <option value="Лікар-гастроентеролог">Лікар-гастроентеролог</option>
                     <option value="Лікар-дієтолог">Лікар-дієтолог</option>
@@ -111,7 +102,7 @@
         </tr>
         <tr>
             <td></td>
-            <td><input type="hidden" name="_csrf" value="${_csrf.token}">
+            <td>
                 <input type="submit" class="form-control button btn-success" value="Sign In" style="width: 230px"/></td>
         </tr>
     </table>

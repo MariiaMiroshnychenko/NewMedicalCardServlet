@@ -16,9 +16,6 @@ public class PersonalRegDataMapper implements MainMapper<PersonalRegData> {
         String name = resultSet.getString("name");
         String patronymic = resultSet.getString("patronymic");
         Date birthDate = resultSet.getDate("birth_date");
-        String passSeries = resultSet.getString("pass_series");
-        String passNumber = resultSet.getString("pass_number");
-        String identCode = resultSet.getString("ident_code");
         String phone = resultSet.getString("phone");
         String email = resultSet.getString("email");
         String login = resultSet.getString("login");
@@ -28,8 +25,7 @@ public class PersonalRegDataMapper implements MainMapper<PersonalRegData> {
         String photo = resultSet.getString("photo");
 
         return new PersonalRegData(id, surname, name, patronymic, birthDate,
-                passSeries, passNumber, identCode, phone, email,
-                login, password, roleId, enabled, photo);
+                phone, email, login, password, roleId, enabled, photo);
     }
 
     @Override

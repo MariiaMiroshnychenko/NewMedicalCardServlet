@@ -1,17 +1,14 @@
 package model.dao;
 
 import model.entity.PersonalRegData;
+import model.entity.Role;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public abstract class PersonalRegDataDao<T> extends EntityDao {
-    public PersonalRegDataDao(Connection connection) {
-        super(connection);
-    }
-
-    public abstract PersonalRegData findPersonalRegDataByLoginAndPassword(String login, String password);
-    public abstract String findRoleTitleByLoginAndPassword(String login, String password);
+public interface PersonalRegDataDao extends EntityDao<PersonalRegData> {
+    PersonalRegData findPersonalRegDataByLoginAndPassword(String login, String password);
+    PersonalRegData findPersonalRegDataByLogin(String login);
 //    public List<T> getAll() {
 //        List<T> list = new ArrayList<>();
 //
@@ -32,13 +29,4 @@ public abstract class PersonalRegDataDao<T> extends EntityDao {
 
 //    public abstract String getQuery ();
 //    public abstract T extractEntityData(ResultSet results);
-
-    @Override
-    public void close() throws Exception {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }

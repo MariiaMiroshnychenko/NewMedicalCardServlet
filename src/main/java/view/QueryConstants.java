@@ -41,7 +41,7 @@ public interface QueryConstants {
             "WHERE surname=? AND name=? AND patronymic=?";
     String PERSONAL_REG_DATA_BY_LOGIN = "SELECT * FROM personal_reg_data WHERE login=?";
     String PERSONAL_REG_DATA_BY_LOGIN_AND_PASSWORD = "SELECT * FROM personal_reg_data WHERE login=? AND password=?";
-    String ROLE_BY_LOGIN_AND_PASSWORD = "SELECT `role`.title FROM personal_reg_data JOIN `role`" +
+    String ROLE_BY_LOGIN_AND_PASSWORD = "SELECT `role`.role_id, `role`.title, `role`.code FROM personal_reg_data JOIN `role`" +
             " ON personal_reg_data.`role` = `role`.role_id WHERE personal_reg_data.login=? AND" +
             " personal_reg_data.`password`=?";
     String REFERRAL_BY_ID = "SELECT * FROM referral WHERE id=?";

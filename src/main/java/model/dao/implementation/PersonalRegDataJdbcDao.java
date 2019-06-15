@@ -15,16 +15,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class PersonalRegDataJdbcDao extends PersonalRegDataDao<PersonalRegData> {
+public class PersonalRegDataJdbcDao implements PersonalRegDataDao {
     private PersonalRegDataMapper personalRegDataMapper = new PersonalRegDataMapper();
-    private RoleMapper roleMapper = new RoleMapper();
     private Map<Integer, PersonalRegData> personalRegDataMap = new HashMap<>();
-    private Map<Integer, Role> roleMap = new HashMap<>();
+
+    public Connection connection;
 
     public PersonalRegDataJdbcDao(Connection connection) {
-        super(connection);
+        this.connection = connection;
     }
-
 //    public PersonalRegDataJdbcDao(Connection connection, PersonalRegDataMapper personalRegDataMapper,
 //                                  Map<Integer, PersonalRegData> personalRegDataMap) {
 //        super(connection);
@@ -58,31 +57,21 @@ public class PersonalRegDataJdbcDao extends PersonalRegDataDao<PersonalRegData> 
     }
 
     @Override
-    public String findRoleTitleByLoginAndPassword(String login, String password) {
-        Role role = null;
-        try (PreparedStatement statement = connection.prepareStatement(QueryConstants.ROLE_BY_LOGIN_AND_PASSWORD)) {
-            statement.setString(1, login);
-            statement.setString(2, password);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                role = roleMapper.extractFromResultSet(resultSet);
-            }
-
-            if (Objects.nonNull(role)) {
-                roleMapper.makeUnique(roleMap, role);
-            }
-
-            resultSet.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return role.getTitle();
+    public PersonalRegData findPersonalRegDataByLogin(String login) {
+        return null;
     }
 
     @Override
-    public void create() {
+    public void close() throws Exception {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void create(PersonalRegData personalRegData) {
 
     }
 

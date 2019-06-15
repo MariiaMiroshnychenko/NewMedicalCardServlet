@@ -3,24 +3,10 @@ package model.dao;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public abstract class EntityDao implements AutoCloseable {
-    public Connection connection;
-
-    public EntityDao(Connection connection) {
-        this.connection = connection;
-    }
-
-    @Override
-    public void close() throws Exception {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public abstract void create();
-    public abstract void update();
+public interface EntityDao<T> extends AutoCloseable {
+    void close() throws Exception;
+    void create(T t);
+    void update();
 
 //    public List<T> getAll() {
 //        List<T> list = new ArrayList<>();

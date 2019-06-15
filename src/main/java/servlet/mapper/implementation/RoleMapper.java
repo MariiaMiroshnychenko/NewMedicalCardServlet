@@ -10,12 +10,11 @@ import java.util.Map;
 public class RoleMapper implements MainMapper<Role> {
     @Override
     public Role extractFromResultSet(ResultSet resultSet) throws SQLException {
-//        Integer id = resultSet.getInt("role_id");
+        Integer id = resultSet.getInt("role_id");
         String title = resultSet.getString("title");
-//        String code = resultSet.getString("code");
+        String code = resultSet.getString("code");
 
-//        return new Role(id, title, code);
-        return new Role(title);
+        return new Role(id, title, code);
     }
 
     @Override

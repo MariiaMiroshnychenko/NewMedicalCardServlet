@@ -5,7 +5,7 @@ import servlet.commands.Command;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-public class LogOut implements Command {
+public class Logout implements Command {
     @Override
     public String execute(HttpServletRequest req) {
         final HttpSession session = req.getSession();

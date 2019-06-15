@@ -20,7 +20,7 @@ public class JdbcFactoryDao extends FactoryDao {
 //        return new MedicalEmployeeJdbcDao(getConnection());
 //    }
 
-//    @Override
+    //    @Override
 //    public EntityDao<Patient> getPatientJdbcDao() {
 //        return new PatientJdbcDao(getConnection());
 //    }
@@ -31,19 +31,20 @@ public class JdbcFactoryDao extends FactoryDao {
 //    }
 //
     @Override
-    public PersonalRegDataDao<PersonalRegData> getPersonalRegDataJdbcDao() {
+    public PersonalRegDataDao getPersonalRegDataJdbcDao() {
         return new PersonalRegDataJdbcDao(getConnection());
     }
-//
+
+    //
 //    @Override
 //    public EntityDao<Referral> getReferralJdbcDao() {
 //        return new ReferralJdbcDao(getConnection());
 //    }
 //
-//    @Override
-//    public EntityDao<Role> getRoleJdbcDao() {
-//        return new RoleJdbcDao(getConnection());
-//    }
+    @Override
+    public RoleDao getRoleJdbcDao() {
+        return new RoleJdbcDao(getConnection());
+    }
 
     private Connection getConnection() {
         try {

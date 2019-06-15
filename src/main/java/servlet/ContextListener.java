@@ -2,6 +2,7 @@ package servlet;
 
 import model.dao.FactoryDao;
 import model.dao.PersonalRegDataDao;
+import model.dao.RoleDao;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -16,9 +17,13 @@ public class ContextListener implements ServletContextListener {
         AtomicReference<PersonalRegDataDao> personalRegDataDao =
                 new AtomicReference<>(FactoryDao.getInstance().getPersonalRegDataJdbcDao());
 
+        AtomicReference<RoleDao> roleDao =
+                new AtomicReference<>(FactoryDao.getInstance().getRoleJdbcDao());
+
         final ServletContext servletContext = servletContextEvent.getServletContext();
 
         servletContext.setAttribute("personalRegDataDao", personalRegDataDao);
+        servletContext.setAttribute("roleDao", roleDao);
     }
 
     @Override
