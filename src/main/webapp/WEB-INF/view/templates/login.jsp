@@ -31,7 +31,7 @@
              class="rounded-circle mr-sm-2" width="30" height="30">
     </form>
 </nav>
-<form method="post" action="${pageContext.request.contextPath}/account" >
+<form method="post" action="${pageContext.request.contextPath}/mirmedis/account" >
         <table align="center">
 
             <tbody>

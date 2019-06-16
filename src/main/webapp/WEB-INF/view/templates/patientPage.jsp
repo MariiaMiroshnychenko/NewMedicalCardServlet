@@ -1,7 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <!DOCTYPE html>
-<html lang="en ru uk" xmlns="http://www.w3.org/1999/xhtml">
+<%@ taglib uri='http://java.sun.com/jsp/jstl/fmt' prefix='fmt'%>
+
+<c:set var="language"
+       value="${not empty param.language ? param.language : not empty language ? language : 'en'}"
+       scope="session"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="message"/>
+<!doctype html>
+<html lang="en">
+<%--<html lang="en ru uk" xmlns="http://www.w3.org/1999/xhtml">--%>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,7 +19,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Main</title>
+    <title><fmt:message key="title.main"/></title>
     <style type="text/css">
         #footer {
             position: fixed; /* Фиксированное положение */
@@ -45,6 +54,14 @@
              class="rounded-circle mr-sm-2" width="30" height="30">
         <img src="https://www.securitylab.ru/upload/iblock/b04/b047ed6071a0b6d03b59118742897f41.jpg"
              class="rounded-circle mr-sm-2" width="30" height="30">
+    </form>
+    <form method="get" action="${pageContext.request.contextPath}/change-language/mirmedis/patientPage">
+        <label for="language"></label>
+        <select id="language" name="language"
+                onchange="submit()" style="font-size: 11pt; background-color: #FFE3F5; color: deeppink">
+            <option value="en" ${language == 'en' ? 'selected' : ''} style="color: deeppink">English</option>
+            <option value="uk" ${language == 'uk' ? 'selected' : ''} style="color: deeppink">Українська</option>
+        </select>
     </form>
 </nav>
 <link rel="stylesheet" href="http://bootstraptema.ru/plugins/2015/bootstrap3/bootstrap.min.css"/>
@@ -106,14 +123,14 @@
                     <div class="panel-heading">
                         <header class="panel-title">
                             <div class="text-center">
-                                <strong>Пацієнт</strong>
+                                <strong>Patient</strong>
                             </div>
                         </header>
                     </div>
                     <div class="panel-body">
                         <div class="text-center" id="author">
                         <img src="${sessionScope.user.photo}" width="300" height="300">
-                            <h3>${sessionScope.user.surname} ${sessionScope.user.name} ${sessionScope.user.patronymic}</h3>
+                            <h3>${sessionScope.user.surnameUk} ${sessionScope.user.nameUk} ${sessionScope.user.patronymicUk}</h3>
                         </div>
                     </div>
                 </div>
@@ -122,109 +139,14 @@
                 <div class="panel">
                     <div class="panel-body">
                         <ul id="myTab" class="nav nav-pills">
-                            <li class="active"><a href="#detail" data-toggle="tab">About patient</a></li>
-                            <#--<li><a href="#confidentiality" data-toggle="tab">Confidentiality</a></li>-->
-                            <li><a href="#medicalCard" data-toggle="tab">MedicalCard</a></li>
+                            <li class="active"><a href="#discharge" data-toggle="tab">Discharge</a></li>
                         </ul>
                         <div id="myTabContent" class="tab-content">
                             <hr>
-                            <div class="tab-pane fade active in" id="detail">
+                            <div class="tab-pane fade active in" id="discharge">
                                 <table class="table table-th-block">
-                                    <tbody>
-                                    <tr>
-                                        <td class="active">Birth date:</td>
-                                        <td>${sessionScope.user.birthDate}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="active">Phone number:</td>
-                                        <td>${sessionScope.user.phone}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="active">Email:</td>
-                                        <td>${sessionScope.user.email}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="active">Attending doctor:</td>
-                                        <td><a target="_blank"
-                                               href="/doctorPageForPatient?attendingDoctorSurname=${patientData.patient.attendingDoctor.person.surname}
-                                               &attendingDoctorName=${patientData.patient.attendingDoctor.person.name}
-                                               &attendingDoctorPatronymic=${patientData.patient.attendingDoctor.person.patronymic}">
-                                            ${patientData.patient.attendingDoctor.person.surname}
-                                            ${patientData.patient.attendingDoctor.person.name}
-                                            ${patientData.patient.attendingDoctor.person.patronymic}</a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
+                                    You`ll see discharge here soon
                                 </table>
-                            </div>
-                            <div class="tab-pane fade" id="medicalCard">
-                                <label>Medical card num: ${patientData.patient.medicalCard.mcId}</label>
-                                <div class="col-lg-8 col-md-8 col-xs-12">
-                                    <div class="panel">
-                                        <div class="panel-body">
-                                            <ul id="myTab" class="nav nav-pills">
-                                                <li class="active"><a href="#visits" data-toggle="tab">Visits</a></li>
-                                                <li><a href="#examResults" data-toggle="tab">Exam results</a></li>
-                                                <#--<li><a href="#discharges" data-toggle="tab">Discharges</a></li>-->
-                                            </ul>
-                                            <div id="myTabContent" class="tab-content">
-                                                <hr>
-                                                <div class="tab-pane fade active in" id="visits">
-                                                    <table class="table table-th-block">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>Visit date</th>
-                                                            <th>Referral num</th>
-                                                            <th>Doctor speciality</th>
-                                                            <th>Diagnosis</th>
-                                                            <th>Appointment</th>
-                                                            <th>Doctor full name</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr>
-                                                                <#list patientVisits as pVisit>
-                                                                    <td>${pVisit.visitDate}</td>
-                                                                    <td>${pVisit.idReferralToDoctor.id}</td>
-                                                                    <td>${pVisit.doctorId.speciality}</td>
-                                                                    <td>${pVisit.diagnosis}</td>
-                                                                    <td>${pVisit.appointment}</td>
-                                                                    <td>${pVisit.doctorId.person.surname} ${pVisit.doctorId.person.name} ${pVisit.doctorId.person.patronymic}</td>
-                                                                     </tr>
-                                                                </#list>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <div class="tab-pane fade active in" id="examResults">
-                                                    <table class="table table-th-block">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>Referral num</th>
-                                                            <th>Result</th>
-                                                            <th>Date</th>
-                                                            <th>Doctor full name</th>
-                                                            <th>Doctor speciality</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr>
-                                                                <#list referralResults as refResult>
-                                                                   <td>${refResult.id}</td>
-                                                                   <td>${refResult.resultText}</td>
-                                                                   <td>${refResult.resDate}</td>
-                                                                   <td>${refResult.respDoctorId.person.surname}
-                                                                       ${refResult.respDoctorId.person.name}
-                                                                       ${refResult.respDoctorId.person.patronymic}</td>
-                                                                    <td>${refResult.respDoctorId.speciality}</td>
-                                                                     </tr>
-                                                                </#list>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

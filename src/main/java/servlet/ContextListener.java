@@ -1,8 +1,7 @@
 package servlet;
 
 import model.dao.FactoryDao;
-import model.dao.PersonalRegDataDao;
-import model.dao.RoleDao;
+import model.dao.UserDataDao;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -14,16 +13,12 @@ import java.util.concurrent.atomic.AtomicReference;
 public class ContextListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        AtomicReference<PersonalRegDataDao> personalRegDataDao =
-                new AtomicReference<>(FactoryDao.getInstance().getPersonalRegDataJdbcDao());
-
-        AtomicReference<RoleDao> roleDao =
-                new AtomicReference<>(FactoryDao.getInstance().getRoleJdbcDao());
+        AtomicReference<UserDataDao> userDataDao =
+                new AtomicReference<>(FactoryDao.getInstance().getUserDataJdbcDao());
 
         final ServletContext servletContext = servletContextEvent.getServletContext();
 
-        servletContext.setAttribute("personalRegDataDao", personalRegDataDao);
-        servletContext.setAttribute("roleDao", roleDao);
+        servletContext.setAttribute("userDataDao", userDataDao);
     }
 
     @Override

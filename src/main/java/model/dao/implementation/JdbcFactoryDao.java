@@ -1,7 +1,6 @@
 package model.dao.implementation;
 
 import model.dao.*;
-import model.entity.*;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -16,23 +15,13 @@ public class JdbcFactoryDao extends FactoryDao {
 //    }
 
 //    @Override
-//    public EntityDao<MedicalEmployee> getMedicalEmployeeJdbcDao() {
-//        return new MedicalEmployeeJdbcDao(getConnection());
-//    }
-
-    //    @Override
-//    public EntityDao<Patient> getPatientJdbcDao() {
-//        return new PatientJdbcDao(getConnection());
-//    }
-//
-//    @Override
 //    public EntityDao<PatientVisit> getPatientVisitJdbcDao() {
 //        return new PatientVisitJdbcDao(getConnection());
 //    }
 //
     @Override
-    public PersonalRegDataDao getPersonalRegDataJdbcDao() {
-        return new PersonalRegDataJdbcDao(getConnection());
+    public UserDataDao getUserDataJdbcDao() {
+        return new UserDataJdbcDao(getConnection());
     }
 
     //
@@ -41,10 +30,6 @@ public class JdbcFactoryDao extends FactoryDao {
 //        return new ReferralJdbcDao(getConnection());
 //    }
 //
-    @Override
-    public RoleDao getRoleJdbcDao() {
-        return new RoleJdbcDao(getConnection());
-    }
 
     private Connection getConnection() {
         try {

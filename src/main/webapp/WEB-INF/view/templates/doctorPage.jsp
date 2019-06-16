@@ -111,21 +111,16 @@
                     <div class="panel-heading">
                         <header class="panel-title">
                             <div class="text-center">
-                                <strong>${docData.medicalEmployee.speciality}</strong>
+                                <strong>${sessionScope.user.role}</strong>
                             </div>
                         </header>
                     </div>
                     <div class="panel-body">
                         <div class="text-center" id="author">
-                            <img src="${docData.photo}" width="300" height="300">
-                            <h3>${docData.surname}
-                                ${docData.name}
-                                ${docData.patronymic}</h3>
-
-                        <#--<form action="/doctorPage/changePhoto" method="post">-->
-                        <#--<input type="file" name="photo">-->
-                        <#--&lt;#&ndash;<button class="panel-default" title="Change photo">Change photo</button>&ndash;&gt;-->
-                        <#--</form>-->
+                            <img src="${sessionScope.user.photo}" width="300" height="300">
+                            <h3>${sessionScope.user.surnameUk}
+                                ${sessionScope.user.nameUk}
+                                ${sessionScope.user.patronymicUk}</h3>
                         </div>
                     </div>
                 </div>
@@ -135,28 +130,12 @@
                     <div class="panel-body">
                         <ul id="myTab" class="nav nav-pills">
                             <li class="active"><a href="#detail" data-toggle="tab">About doctor</a></li>
-                            <#--<li><a href="#confidentiality" data-toggle="tab">Confidentiality</a></li>-->
                             <li><a href="#patients" data-toggle="tab">Patients</a></li>
                         </ul>
                         <div id="myTabContent" class="tab-content">
                             <hr>
                             <div class="tab-pane fade active in" id="detail">
-                                <table class="table table-th-block">
-                                    <tbody>
-                                    <tr>
-                                        <td class="active">Birth date:</td>
-                                        <td>${docData.birthDate}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="active">Phone number:</td>
-                                        <td>${docData.phone}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="active">Email:</td>
-                                        <td>${docData.email}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+
                             </div>
                             <div class="tab-pane fade" id="patients">
                                 <form role="form" action="/doctorPage/patientPageForDoctor" method="post">

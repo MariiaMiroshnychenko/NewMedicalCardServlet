@@ -1,32 +1,30 @@
 package model.services.implementation;
 
 import model.dao.FactoryDao;
-import model.dao.PersonalRegDataDao;
-import model.entity.PersonalRegData;
-import model.entity.Role;
+import model.dao.UserDataDao;
+import model.entity.UserData;
 import model.services.PersonRegistration;
-import servlet.mapper.implementation.PersonalRegDataMapper;
-import servlet.mapper.implementation.RoleMapper;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class PersonRegistrationService implements PersonRegistration {
-
     @Override
-    public void toSignUp(PersonalRegData personalRegData) {
-        PersonalRegDataDao personalRegDataDao = FactoryDao.getInstance().getPersonalRegDataJdbcDao();
+    public void toSignUp(UserData userData) {
+        UserDataDao userDataDao = FactoryDao.getInstance().getUserDataJdbcDao();
 
-//        if (Objects.nonNull(personalRegDataDao.findByLogin(user.getLogin()))) {
+//        if (Objects.nonNull(userDataDao.findByLogin(user.getLogin()))) {
 //            throw new LoginAlreadyExistsException();
 //        }
+        userDataDao.create(userData);
+            userDataDao.close();
+    }
 
-        personalRegDataDao.create(personalRegData);
-        try {
-            personalRegDataDao.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @Override
+    public Integer assignDoctor() {
+        UserDataDao userDataDao = FactoryDao.getInstance().getUserDataJdbcDao();
+
+        List<UserData> familyDoctors = userDataDao.findUserDataByRole("doctor");
+        Random random = new Random();
+        return familyDoctors.get(random.nextInt(familyDoctors.size())).getId();
     }
 }

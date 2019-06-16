@@ -1,7 +1,8 @@
 package model.services;
 
-import model.entity.PersonalRegData;
+import model.entity.UserData;
 
 public interface PersonRegistration {
-    void toSignUp(PersonalRegData personalRegData);
+    Integer assignDoctor();
+    void toSignUp(UserData userData);
 }

@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public interface EntityDao<T> extends AutoCloseable {
-    void close() throws Exception;
+    void close();
     void create(T t);
     void update();
 

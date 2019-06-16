@@ -12,8 +12,8 @@ public class ConnectionPool {
             synchronized (ConnectionPool.class) {
                 if (dataSource == null) {
                     BasicDataSource ds = new BasicDataSource();
-                    ds.setDriverClassName("com.mysql.jdbc.Driver");
-                    ds.setUrl("jdbc:mysql://localhost:3306/medicine?serverTimezone=UTC");
+                    ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+                    ds.setUrl("jdbc:mysql://localhost:3306/medicine_v2?serverTimezone=UTC");
                     ds.setUsername("root");
                     ds.setPassword("root");
                     ds.setMinIdle(5);
