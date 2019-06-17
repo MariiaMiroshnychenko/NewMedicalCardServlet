@@ -1,8 +1,5 @@
 package model.entity;
 
-import java.time.LocalDate;
-import java.util.Objects;
-
 public class UserData {
     private Integer id;
 

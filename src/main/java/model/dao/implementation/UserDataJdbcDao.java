@@ -1,11 +1,14 @@
 package model.dao.implementation;
 
+import constants.QueryConstants;
 import model.dao.UserDataDao;
+import model.dao.mapper.implementation.UserDataMapper;
 import model.entity.UserData;
-import servlet.mapper.implementation.UserDataMapper;
-import view.QueryConstants;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 public class UserDataJdbcDao implements UserDataDao {
@@ -16,31 +19,6 @@ public class UserDataJdbcDao implements UserDataDao {
 
     public UserDataJdbcDao(Connection connection) {
         this.connection = connection;
-    }
-
-    @Override
-    public UserData findUserDataByLoginAndPassword(String login, String password) {
-        UserData userData = null;
-
-        try (PreparedStatement statement = connection.prepareStatement(QueryConstants.USER_DATA_BY_LOGIN_AND_PASSWORD)) {
-            statement.setString(1, login);
-            statement.setString(2, password);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            if (resultSet.next()) {
-                userData = userDataMapper.extractFromResultSet(resultSet);
-            }
-
-            if (Objects.nonNull(userData)) {
-                userDataMapper.makeUnique(personalRegDataMap, userData);
-            }
-
-            resultSet.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return userData;
     }
 
     @Override

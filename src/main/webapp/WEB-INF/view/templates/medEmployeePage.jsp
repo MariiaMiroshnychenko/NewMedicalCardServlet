@@ -1,7 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-    <!DOCTYPE html>
-<html lang="en ru uk" xmlns="http://www.w3.org/1999/xhtml">
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
+
+<c:set var="language"
+       value="${not empty param.language ? param.language : not empty language ? language : 'en'}"
+       scope="session"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="message"/>
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,14 +17,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Account</title>
+    <title><fmt:message key="title.account"/></title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a href="/" class="navbar-brand">
-        <img src="https://rat.in.ua/wp-content/uploads/2012/10/1114_burenka_podorognik.png"
-             alt="logo" width="35" height="35">
-    </a>
+    <img src="https://rat.in.ua/wp-content/uploads/2012/10/1114_burenka_podorognik.png"
+         alt="logo" width="35" height="35">
     <button class="navbar-toggler mr-auto" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -28,21 +33,22 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <form action="/logout" method="post">
-                    <input type="hidden" name="_csrf" value="${_csrf.token}">
                     <input type="submit" value="Sign Out"/>
                 </form>
             </li>
 
             <li class="nav-item active">
-                <a href="/procedures" class="nav-link">  Designated procedures</a>
+                <a href="/procedures" class="nav-link"><fmt:message key="navbar.designated.procedures"/></a>
             </li>
         </ul>
     </div>
-    <form id="locales" class="form-inline my-2">
-        <img src="http://avtovyshyvanka.com/userfiles/shop/large/163_shilda-flag-ukrainy-krug.jpg"
-             class="rounded-circle mr-sm-2" width="30" height="30">
-        <img src="https://www.securitylab.ru/upload/iblock/b04/b047ed6071a0b6d03b59118742897f41.jpg"
-             class="rounded-circle mr-sm-2" width="30" height="30">
+    <form method="get" action="${pageContext.request.contextPath}/change-lang/mirmedis/nursePage">
+        <label for="language"></label>
+        <select id="language" name="language"
+                onchange="submit()" style="font-size: 11pt">
+            <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+            <option value="uk" ${language == 'uk' ? 'selected' : ''}>Українська</option>
+        </select>
     </form>
 </nav>
 <link rel="stylesheet" href="http://bootstraptema.ru/plugins/2015/bootstrap3/bootstrap.min.css"/>
@@ -104,16 +110,16 @@
                     <div class="panel-heading">
                         <header class="panel-title">
                             <div class="text-center">
-                                <strong>Медичний персонал</strong>
+                                <strong><fmt:message key="message.nurse"/></strong>
                             </div>
                         </header>
                     </div>
                     <div class="panel-body">
                         <div class="text-center" id="author">
-                        <img src="${sessionScope.user.person.photo}" width="300" height="300">
-                            <h3>${sessionScope.user.person.surname}
-                                ${sessionScope.user.person.name}
-                                ${sessionScope.user.person.patronymic}</h3>
+                            <img src="${sessionScope.user.photo}" width="300" height="300">
+                            <h3>${requestScope.localUser.surname}
+                                ${requestScope.localUser.name}
+                                ${requestScope.localUser.patronymic}</h3>
                         </div>
                     </div>
                 </div>
@@ -122,48 +128,31 @@
                 <div class="panel">
                     <div class="panel-body">
                         <ul id="myTab" class="nav nav-pills">
-                            <li class="active"><a href="#detail" data-toggle="tab">About medical employee</a></li>
+                            <li class="active"><a href="#detail" data-toggle="tab"><fmt:message key="nurse.data"/></a>
+                            </li>
                         </ul>
-                        <div id="myTabContent" class="tab-content">
-                            <hr>
-                            <div class="tab-pane fade active in" id="detail">
-                                <table class="table table-th-block">
-                                    <tbody>
-                                    <tr>
-                                        <td class="active">Birth date:</td>
-                                        <td>${sessionScope.user.person.birthDate}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="active">Phone number:</td>
-                                        <td>${sessionScope.user.person.phone}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="active">Email:</td>
-                                        <td>${sessionScope.user.person.email}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                        <fmt:message key="info.page"/>
                     </div>
                 </div>
             </div>
         </div>
     </div><!-- /.container -->
-    <footer id="footer" class="footer navbar-fixed-bottom footer-dark bg-dark" style="height: 45px">
-        <div class="container my-2" align="center">
-            <p>©MIRMEDIS 2019</p>
-        </div>
-    </footer>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-            crossorigin="anonymous"></script>
+</div>
+
+<footer id="footer" class="footer navbar-fixed-bottom footer-dark bg-dark" style="height: 45px">
+    <div class="container my-2" align="center">
+        <p>©MIRMEDIS 2019</p>
+    </div>
+</footer>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 </body>
 </html>
 

@@ -1,30 +1,35 @@
 package model.services.implementation;
 
-import model.dao.FactoryDao;
 import model.dao.UserDataDao;
 import model.entity.UserData;
 import model.services.PersonRegistration;
 
-import java.util.*;
+import java.util.List;
 
 public class PersonRegistrationService implements PersonRegistration {
-    @Override
-    public void toSignUp(UserData userData) {
-        UserDataDao userDataDao = FactoryDao.getInstance().getUserDataJdbcDao();
+    private UserDataDao userDataDao;
 
-//        if (Objects.nonNull(userDataDao.findByLogin(user.getLogin()))) {
-//            throw new LoginAlreadyExistsException();
-//        }
-        userDataDao.create(userData);
-            userDataDao.close();
+    public PersonRegistrationService(UserDataDao userDataDao) {
+        this.userDataDao = userDataDao;
     }
 
     @Override
-    public Integer assignDoctor() {
-        UserDataDao userDataDao = FactoryDao.getInstance().getUserDataJdbcDao();
+    public UserData identifyPersonByLogin(String login) {
+        UserData user = userDataDao.findUserDataByLogin(login);
+        userDataDao.close();
+        return user;
+    }
 
-        List<UserData> familyDoctors = userDataDao.findUserDataByRole("doctor");
-        Random random = new Random();
-        return familyDoctors.get(random.nextInt(familyDoctors.size())).getId();
+    @Override
+    public List<UserData> identifyPersonByRole(String role) {
+        List<UserData> userData = userDataDao.findUserDataByRole(role);
+        userDataDao.close();
+        return userData;
+    }
+
+    @Override
+    public void toSignUp(UserData userData) {
+        userDataDao.create(userData);
+        userDataDao.close();
     }
 }

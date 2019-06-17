@@ -19,21 +19,19 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title><fmt:message key="title.main"/></title>
+    <title><fmt:message key="title.account"/></title>
     <style type="text/css">
         #footer {
-            position: fixed; /* Фиксированное положение */
-            padding: 10px; /* Поля вокруг текста */
-            width: 100%; /* Ширина слоя */
+            position: fixed;
+            padding: 10px;
+            width: 100%;
         }
     </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a href="/" class="navbar-brand">
         <img src="https://rat.in.ua/wp-content/uploads/2012/10/1114_burenka_podorognik.png"
              alt="logo" width="35" height="35">
-    </a>
     <button class="navbar-toggler mr-auto" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -44,23 +42,17 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <form action="/logout" method="post">
-                    <input type="submit" value="Sign Out"/>
+                    <button class="btn btn-success" style="width: 230px"><fmt:message key="button.logout"/></button>
                 </form>
             </li>
         </ul>
     </div>
-    <form id="locales" class="form-inline my-2">
-        <img src="http://avtovyshyvanka.com/userfiles/shop/large/163_shilda-flag-ukrainy-krug.jpg"
-             class="rounded-circle mr-sm-2" width="30" height="30">
-        <img src="https://www.securitylab.ru/upload/iblock/b04/b047ed6071a0b6d03b59118742897f41.jpg"
-             class="rounded-circle mr-sm-2" width="30" height="30">
-    </form>
-    <form method="get" action="${pageContext.request.contextPath}/change-language/mirmedis/patientPage">
+    <form method="get" action="${pageContext.request.contextPath}/change-lang/mirmedis/patientPage">
         <label for="language"></label>
         <select id="language" name="language"
-                onchange="submit()" style="font-size: 11pt; background-color: #FFE3F5; color: deeppink">
-            <option value="en" ${language == 'en' ? 'selected' : ''} style="color: deeppink">English</option>
-            <option value="uk" ${language == 'uk' ? 'selected' : ''} style="color: deeppink">Українська</option>
+                onchange="submit()" style="font-size: 11pt">
+            <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+            <option value="uk" ${language == 'uk' ? 'selected' : ''}>Українська</option>
         </select>
     </form>
 </nav>
@@ -123,14 +115,14 @@
                     <div class="panel-heading">
                         <header class="panel-title">
                             <div class="text-center">
-                                <strong>Patient</strong>
+                                <strong><fmt:message key="message.patient"/></strong>
                             </div>
                         </header>
                     </div>
                     <div class="panel-body">
                         <div class="text-center" id="author">
                         <img src="${sessionScope.user.photo}" width="300" height="300">
-                            <h3>${sessionScope.user.surnameUk} ${sessionScope.user.nameUk} ${sessionScope.user.patronymicUk}</h3>
+                            <h3>${requestScope.localUser.surname} ${requestScope.localUser.name} ${requestScope.localUser.patronymic}</h3>
                         </div>
                     </div>
                 </div>
@@ -139,13 +131,13 @@
                 <div class="panel">
                     <div class="panel-body">
                         <ul id="myTab" class="nav nav-pills">
-                            <li class="active"><a href="#discharge" data-toggle="tab">Discharge</a></li>
+                            <li class="active"><a href="#discharge" data-toggle="tab"><fmt:message key="message.discharge"/> </a></li>
                         </ul>
                         <div id="myTabContent" class="tab-content">
                             <hr>
                             <div class="tab-pane fade active in" id="discharge">
                                 <table class="table table-th-block">
-                                    You`ll see discharge here soon
+                                    <fmt:message key="message.see.discharge"/>
                                 </table>
                             </div>
                         </div>

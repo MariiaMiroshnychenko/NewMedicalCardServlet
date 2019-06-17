@@ -7,10 +7,8 @@ import java.util.Optional;
 public abstract class FactoryDao {
     private static Optional<FactoryDao> factory = Optional.empty();
 
-//    public abstract EntityDao<ExamResultByReferral> getExamResultByReferralJdbcDao();
-//    public abstract EntityDao<PatientVisit> getPatientVisitJdbcDao();
     public abstract UserDataDao getUserDataJdbcDao();
-//    public abstract EntityDao<Referral> getReferralJdbcDao();
+    public abstract TreatmentDao getTreatmentJdbcDao();
 
     public static FactoryDao getInstance() {
         if (!factory.isPresent()) {

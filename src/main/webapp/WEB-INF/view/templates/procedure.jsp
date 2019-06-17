@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="en ru uk" xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -10,14 +11,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Account</title>
+    <title><fmt:message key="title.account"/></title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a href="/" class="navbar-brand">
         <img src="https://rat.in.ua/wp-content/uploads/2012/10/1114_burenka_podorognik.png"
              alt="logo" width="35" height="35">
-    </a>
     <button class="navbar-toggler mr-auto" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -28,16 +27,15 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <form action="/logout" method="post">
-                    <input type="hidden" name="_csrf" value="${_csrf.token}">
-                    <input type="submit" value="Sign Out"/>
+                    <input type="submit" value="<fmt:message key="button.logout"/>"/>
                 </form>
             </li>
             <li class="nav-item active">
-                <a href="/doctor-appointment" class="nav-link">Appointments </a>
+                <a href="/doctor-appointment" class="nav-link"><fmt:message key="navbar.appointments"/> </a>
             </li>
 
             <li class="nav-item active">
-                <a href="/procedures" class="nav-link"> Designated procedures</a>
+                <a href="/procedures" class="nav-link"><fmt:message key="navbar.designated.procedures"/></a>
             </li>
         </ul>
     </div>
@@ -47,11 +45,10 @@
         <img src="https://www.securitylab.ru/upload/iblock/b04/b047ed6071a0b6d03b59118742897f41.jpg"
              class="rounded-circle mr-sm-2" width="30" height="30">
     </form>
-</nav
+</nav>
 <table>
     <thead>
     <tr>
-        <th>#</th>
         <th>Patient full name</th>
         <th>Appointment</th>
         <th>Executed</th>
@@ -60,91 +57,23 @@
     <tbody>
     <tr>
 
-                    <#list toDoList as tdl>
-                        <td></td>
-                        <td> ${tdl.appointment} </td>
-                        <td> ${tdl.patientId.person.surname}
-                            ${tdl.patientId.person.name}
-                            ${tdl.patientId.person.patronymic}</td>
-                        <td>
-                            <form action="/procedures" method="post">
-                                <input type="hidden" name="visitId" value="${tdl.id}">
-                                <input type="hidden" name="_csrf" value="${_csrf.token}">
-                                <input type="submit" class="form-control button btn-success" style="width: 230px"
-                                       value="Виконано"/>
-                        </td>
-                </tr>
-                    </#list>
+        <#list toDoList as tdl>
+        <td></td>
+        <td> ${tdl.appointment} </td>
+        <td> ${tdl.patientId.person.surname}
+            ${tdl.patientId.person.name}
+            ${tdl.patientId.person.patronymic}</td>
+        <td>
+            <form action="/procedures" method="post">
+                <input type="hidden" name="visitId" value="${tdl.id}">
+                <input type="submit" class="form-control button btn-success" style="width: 230px"
+                       value="Виконано"/>
+            </form>
+        </td>
+    </tr>
     </tbody>
+<tr #list>
 </table>
-
-<#--<form method="post" action="/doctor-appointment">-->
-<#--<table>-->
-<#--<tbody>-->
-<#--<tr>-->
-<#--<td>${enterValue}</td>-->
-<#--<td><input type="text" name="number"></td>-->
-<#--</tr>-->
-<#--<tr>-->
-<#--<td>Enter diagnosis   </td>-->
-<#--<td><input type="text" name="diagnosis"></td>-->
-<#--</tr>-->
-<#--<tr>-->
-<#--<td>Enter appointments   </td>-->
-<#--<td><input type="text" name="appointment"></td>-->
-<#--</tr>-->
-<#--<tr>-->
-<#--<td></td>-->
-<#--<td>-->
-<#--<input type="hidden" name="_csrf" value="${_csrf.token}">-->
-<#--<button style="width: 230px">Add visit</button>-->
-<#--</td>-->
-<#--</tr>-->
-<#--</tbody>-->
-<#--</table>-->
-<#--</form>-->
-<#--</div>-->
-
-<#--<div class="tab-pane fade" id="v-pills-referral" role="tabpanel"-->
-<#--aria-labelledby="v-pills-profile-tab">-->
-<#--<form method="post" action="doctor-appointment/referral">-->
-<#--<table>-->
-<#--<tbody>-->
-<#--<tr>-->
-<#--<td>Patient id </td>-->
-<#--<td><input type="text" name="pId" value="${patientId}"></td>-->
-<#--</tr>-->
-<#--<tr>-->
-<#--<td>Referral type   </td>-->
-<#--<td>-->
-<#--<select name="refType">-->
-<#--<option value="">--------------------------------------</option>-->
-<#--<option value="Направлення до лікаря за спеціальністю">-->
-<#--Направлення до лікаря за спеціальністю-->
-<#--</option>-->
-<#--<option value="Направлення на дослідження">Направлення на дослідження</option>-->
-<#--</select>-->
-<#--</td>-->
-<#--</tr>-->
-<#--<tr>-->
-<#--<td>Act title   </td>-->
-<#--<td><input type="text" name="actTitle"></td>-->
-<#--</tr>-->
-<#--<tr>-->
-<#--<td></td>-->
-<#--<td>-->
-<#--<input type="hidden" name="_csrf" value="${_csrf.token}">-->
-<#--<button style="width: 350px">Issue referral</button>-->
-<#--</td>-->
-<#--</tr>-->
-<#--</tbody>-->
-<#--</table>-->
-<#--</form>-->
-<footer id="footer" class="footer navbar-fixed-bottom footer-dark bg-dark" style="height: 45px">
-    <div class="container my-2" align="center">
-        <p>©MIRMEDIS 2019</p>
-    </div>
-</footer>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>

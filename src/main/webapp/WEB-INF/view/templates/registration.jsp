@@ -1,7 +1,16 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en ru uk" xmlns="http://www.w3.org/1999/xhtml">
+<%@ taglib uri='http://java.sun.com/jsp/jstl/fmt' prefix='fmt'%>
+
+<c:set var="language"
+       value="${not empty param.language ? param.language : not empty language ? language : 'en'}"
+       scope="session"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="message"/>
+<!doctype html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,7 +19,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>Main</title>
+    <title><fmt:message key="title.registration"/></title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -24,53 +33,71 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <form id="locales" class="form-inline my-2">
-        <img src="http://avtovyshyvanka.com/userfiles/shop/large/163_shilda-flag-ukrainy-krug.jpg"
-             class="rounded-circle mr-sm-2" width="30" height="30">
-        <img src="https://www.securitylab.ru/upload/iblock/b04/b047ed6071a0b6d03b59118742897f41.jpg"
-             class="rounded-circle mr-sm-2" width="30" height="30">
+    <form method="get" action="${pageContext.request.contextPath}/change-lang/registration">
+        <label for="language"></label>
+        <select id="language" name="language"
+                onchange="submit()" style="font-size: 11pt">
+            <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+            <option value="uk" ${language == 'uk' ? 'selected' : ''}>Українська</option>
+        </select>
     </form>
 </nav>
-<form action="${pageContext.request.contextPath}/register" method="post">
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<form style="align-self: center" action="${pageContext.request.contextPath}/register" method="post">
     <table align="center">
         <tr>
-            <td>Surname (ukr) :</td>
+            <td><fmt:message key="field.surname.ukr"/>: </td>
             <td><input type="text" class="form-control" name="surname_uk"/></td>
-            <td>Surname (eng) :</td>
+            <td></td>
+            <td><fmt:message key="field.surname.en"/>: </td>
             <td><input type="text" class="form-control" name="surname_en"/></td>
         </tr>
+        <tr><td></td></tr>
         <tr>
-            <td>Name (ukr):</td>
+            <td><fmt:message key="field.name.ukr"/>: </td>
             <td><input type="text" class="form-control" name="name_uk"/></td>
-            <td>Name (eng):</td>
+            <td></td>
+            <td><fmt:message key="field.name.en"/>: </td>
             <td><input type="text" class="form-control" name="name_en"/></td>
         </tr>
+        <tr><td></td></tr>
         <tr>
-            <td>Patronymic (ukr):</td>
+            <td><fmt:message key="field.patronymic.ukr"/>: </td>
             <td><input type="text" class="form-control" name="patronymic_uk"/></td>
-            <td>Patronymic (eng):</td>
+            <td></td>
+            <td><fmt:message key="field.patronymic.en"/>: </td>
             <td><input type="text" class="form-control" name="patronymic_en"/></td>
         </tr>
+        <tr><td></td></tr>
         <tr>
-            <td>Enter your Login :</td>
+            <td><fmt:message key="field.login"/>: </td>
             <td><input type="text" class="form-control" name="login"/></td>
         </tr>
+        <tr><td></td></tr>
         <tr>
-            <td>Enter your Password :</td>
+            <td><fmt:message key="field.password"/>: </td>
             <td><input type="password" class="form-control" name="password"/></td>
         </tr>
         <tr>
             <td></td>
+        </tr>
+        <tr>
+            <td></td>
             <td>
-                <input type="submit" class="form-control button btn-success" value="Sign In" style="width: 230px"/></td>
+                <form action="/logout" method="post">
+                    <button class="btn btn-success" style="width: 230px"><fmt:message key="button.sign-up"/></button>
+                    <%--<input type="submit" value="Sign Out"/>--%>
+                </form>
+                <%--<input type="submit" class="form-control button btn-success" value="Sign In" style="width: 230px"/></td>--%>
         </tr>
     </table>
 </form>
-<footer class="footer navbar-fixed-bottom footer-dark bg-dark" style="height: 45px">
-    <div class="container my-2" align="center">
-        <p>©MIRMEDIS 2019</p>
-    </div>
-</footer>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
