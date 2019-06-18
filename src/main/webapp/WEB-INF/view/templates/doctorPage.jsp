@@ -37,11 +37,11 @@
             </li>
 
             <li class="nav-item active">
-                <a href="/procedures" class="nav-link"><fmt:message key="navbar.designated.procedures"/></a>
+                <a href="${pageContext.request.contextPath}/mirmedis/procedures" class="nav-link"><fmt:message key="navbar.designated.procedures"/></a>
             </li>
             <li class="nav-item">
                 <form action="/logout" method="post">
-                    <button class="btn btn-success" style="width: 230px"><fmt:message key="button.logout"/></button>
+                    <button class="btn btn-success" style="width: 50px"><fmt:message key="button.logout"/></button>
                 </form>
             </li>
         </ul>
@@ -134,36 +134,11 @@
                     <div class="panel-body">
                         <ul id="myTab" class="nav nav-pills">
                             <li class="active"><a href="#detail" data-toggle="tab"><fmt:message key="message.about.doctor"/></a></li>
-                            <li><a href="#patients" data-toggle="tab"><fmt:message key="message.patients"/></a></li>
                         </ul>
                         <div id="myTabContent" class="tab-content">
                             <hr>
                             <div class="tab-pane fade active in" id="detail">
-
-                            </div>
-                            <div class="tab-pane fade" id="patients">
-                                <form role="form" action="/doctorPage/patientPageForDoctor" method="post">
-                                    <table class="table">
-                                        <thead class="thead-light">
-                                        <tr>
-                                            <#--<th scope="col">#</th>-->
-                                            <th scope="col"><fmt:message key="message.name.full"/></th>
-                                            <th scope="col"><fmt:message key="message.medical.card"/>
-                                        </thead>
-
-                                        <tbody>
-
-                                        <tr><#list patients as patient>
-
-                                            <#--<th scope="row">${patient.counter}</th>-->
-                                            <td><a name="patientFullName" href="/doctorPage/patientPageForDoctor?patientSurname=${patient.surname}&patientName=${patient.name}&patientPatronymic=${patient.patronymic}">
-                                                ${patient.surname} ${patient.name} ${patient.patronymic}</a></td>
-                                            <td><a href=""> ${patient.patient.medicalCard}</a></td>
-
-                                        </tr>
-                                            </#list>
-                                    </table>
-                                </form>
+                                <fmt:message key="info.page"/>
                             </div>
                         </div>
                     </div>

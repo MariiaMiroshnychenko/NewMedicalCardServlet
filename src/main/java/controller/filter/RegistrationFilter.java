@@ -2,8 +2,8 @@ package controller.filter;
 
 import model.dao.FactoryDao;
 import model.entity.UserData;
-import model.services.PersonRegistration;
-import model.services.implementation.PersonRegistrationService;
+import model.services.UserDataProcessor;
+import model.services.implementation.UserDataService;
 import org.mindrot.jbcrypt.BCrypt;
 
 import javax.servlet.*;
@@ -36,9 +36,9 @@ public class RegistrationFilter implements Filter {
 
         final String encodingPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
-        PersonRegistration personRegistration = new PersonRegistrationService(FactoryDao.getInstance().getUserDataJdbcDao());
+        UserDataProcessor userDataProcessor = new UserDataService(FactoryDao.getInstance().getUserDataJdbcDao());
 
-        UserData userData = personRegistration.identifyPersonByLogin(login);
+        UserData userData = userDataProcessor.identifyPersonByLogin(login);
 
         if (userData != null) {
             request.setAttribute("loginError", "Try to enter new user login!");
@@ -48,7 +48,7 @@ public class RegistrationFilter implements Filter {
                 login, encodingPassword, role, photo);
         userData.setRole("patient");
         userData.setPhoto("http://teplota.kh.ua/wp-content/uploads/2013/02/ЧЕЛОВЕЧЕК.jpg");
-        personRegistration.toSignUp(userData);
+        userDataProcessor.toSignUp(userData);
 
         request.getRequestDispatcher("/WEB-INF/view/templates/login.jsp").forward(request, response);
     }

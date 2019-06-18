@@ -24,8 +24,6 @@ public class DoctorAppointment implements Command {
 
         String appTypeUk = request.getParameter("appTypeUk");
         String appTypeEn = request.getParameter("appTypeEn");
-        System.out.println(Objects.nonNull(appTypeUk));
-        System.out.println(Objects.nonNull(appTypeEn));
         if (Objects.nonNull(appTypeUk) && Objects.nonNull(appTypeEn)) {
             Integer user = Integer.valueOf(request.getParameter("patients"));
             System.out.println(user);

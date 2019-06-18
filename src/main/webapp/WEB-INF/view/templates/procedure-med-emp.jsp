@@ -1,7 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html lang="en ru uk" xmlns="http://www.w3.org/1999/xhtml">
+<%@ taglib uri='http://java.sun.com/jsp/jstl/fmt' prefix='fmt' %>
+
+<c:set var="language"
+       value="${not empty param.language ? param.language : not empty language ? language : 'en'}"
+       scope="session"/>
+<fmt:setLocale value="${language}"/>
+<fmt:setBundle basename="message"/>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,10 +21,8 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a href="/" class="navbar-brand">
         <img src="https://rat.in.ua/wp-content/uploads/2012/10/1114_burenka_podorognik.png"
              alt="logo" width="35" height="35">
-    </a>
     <button class="navbar-toggler mr-auto" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -34,51 +39,44 @@
             </li>
 
             <li class="nav-item active">
-                <a href="/procedures" class="nav-link"> Designated procedures</a>
+                <a href="${pageContext.request.contextPath}/mirmedis/procedures" class="nav-link"> Designated procedures</a>
             </li>
         </ul>
     </div>
-    <form id="locales" class="form-inline my-2">
-        <img src="http://avtovyshyvanka.com/userfiles/shop/large/163_shilda-flag-ukrainy-krug.jpg"
-             class="rounded-circle mr-sm-2" width="30" height="30">
-        <img src="https://www.securitylab.ru/upload/iblock/b04/b047ed6071a0b6d03b59118742897f41.jpg"
-             class="rounded-circle mr-sm-2" width="30" height="30">
+    <form method="get" action="${pageContext.request.contextPath}/change-lang/mirmedis/procedures">
+        <label for="language"></label>
+        <select id="language" name="language"
+                onchange="submit()" style="font-size: 11pt">
+            <option value="en" ${language == 'en' ? 'selected' : ''}>English</option>
+            <option value="uk" ${language == 'uk' ? 'selected' : ''}>Українська</option>
+        </select>
     </form>
 </nav>
 <table>
     <thead>
     <tr>
-        <th>#</th>
-        <th>Patient full name</th>
-        <th>Appointment</th>
+        <th>Assignment id</th>
+        <th>Assignment type</th>
         <th>Executed</th>
     </tr>
     </thead>
     <tbody>
     <tr>
-                    <#list toDoList as tdl>
-                        <td></td>
-                        <td>${tdl.appointment}</td>
-                        <td> ${tdl.patientId.person.surname}
-                            ${tdl.patientId.person.name}
-                            ${tdl.patientId.person.patronymic}
-                        </td>
-                        <td>
-                            <form action="/proceduresMedEmp" method="post">
-                                <input type="hidden" name="visitId" value="${tdl.id}">
-                                <input type="hidden" name="_csrf" value="${_csrf.token}">
-                                <input type="submit" class="form-control button btn-success" style="width: 230px"
-                                       value="Виконано"/>
-                        </td>
-                </tr>
-                    </#list>
+        <c:forEach var="assignment" items="${requestScope.localAssignments}">
+        <td>${assignment.treatment.id}</td>
+        <td>${assignment.appType}</td>
+        <td>
+            <form action="${pageContext.request.contextPath}/mirmedis/procedures" method="post">
+                <input type="hidden" name="treatmentId" value="${assignment.treatment.id}">
+                <input type="submit" class="form-control button btn-success" style="width: 230px"
+                       value="Виконано"/>
+            </form>
+        </td>
+
+    </tr>
+    </c:forEach>
     </tbody>
 </table>
-<footer id="footer" class="footer navbar-fixed-bottom footer-dark bg-dark" style="height: 45px">
-    <div class="container my-2" align="center">
-        <p>©MIRMEDIS 2019</p>
-    </div>
-</footer>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>

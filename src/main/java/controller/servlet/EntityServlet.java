@@ -2,7 +2,6 @@ package controller.servlet;
 
 import controller.commands.Command;
 import controller.commands.implementation.*;
-import model.services.implementation.TreatmentProcessorService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,7 +24,7 @@ public class EntityServlet extends HttpServlet {
         commands.put("doctorPage", new DoctorPage(new PageLocalization()));
         commands.put("nursePage", new NursePage(new PageLocalization()));
         commands.put("doctor-appointment", new DoctorAppointment(new PageLocalization()));
-        commands.put("procedures", new ProcedureByDoctor(new PageLocalization()));
+        commands.put("procedures", new ProcedureByMedEmployee(new PageLocalization()));
     }
 
     @Override

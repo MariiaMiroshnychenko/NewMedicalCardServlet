@@ -21,28 +21,34 @@ public class UserDataJdbcDao implements UserDataDao {
         this.connection = connection;
     }
 
-    @Override
-    public UserData findUserDataByLogin(String login) {
+    private UserData findUserDataByField(Object field, String query) {
         UserData userData = null;
 
-        try (PreparedStatement statement = connection.prepareStatement(QueryConstants.USER_DATA_BY_LOGIN)) {
-            statement.setString(1, login);
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setObject(1, field);
 
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
                 userData = userDataMapper.extractFromResultSet(resultSet);
             }
-
             if (Objects.nonNull(userData)) {
                 userDataMapper.makeUnique(personalRegDataMap, userData);
             }
-
             resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return userData;
+    }
+    @Override
+    public UserData findUserDataByLogin(String login) {
+        return findUserDataByField(login, QueryConstants.USER_DATA_BY_LOGIN);
+    }
+
+    @Override
+    public UserData findUserDataById(Integer id) {
+        return findUserDataByField(id, QueryConstants.USER_DATA_BY_ID);
     }
 
     @Override
@@ -97,7 +103,7 @@ public class UserDataJdbcDao implements UserDataDao {
     }
 
     @Override
-    public void update() {
+    public void update(Object field, Integer id, String query) {
 
     }
 }

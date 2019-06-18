@@ -2,14 +2,14 @@ package model.services.implementation;
 
 import model.dao.UserDataDao;
 import model.entity.UserData;
-import model.services.PersonRegistration;
+import model.services.UserDataProcessor;
 
 import java.util.List;
 
-public class PersonRegistrationService implements PersonRegistration {
+public class UserDataService implements UserDataProcessor {
     private UserDataDao userDataDao;
 
-    public PersonRegistrationService(UserDataDao userDataDao) {
+    public UserDataService(UserDataDao userDataDao) {
         this.userDataDao = userDataDao;
     }
 
@@ -18,6 +18,13 @@ public class PersonRegistrationService implements PersonRegistration {
         UserData user = userDataDao.findUserDataByLogin(login);
         userDataDao.close();
         return user;
+    }
+
+    @Override
+    public UserData identifyPersonById(Integer id) {
+        UserData userData = userDataDao.findUserDataById(id);
+        userDataDao.close();
+        return userData;
     }
 
     @Override

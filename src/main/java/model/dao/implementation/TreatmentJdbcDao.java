@@ -4,7 +4,6 @@ import model.dao.TreatmentDao;
 import model.dao.mapper.implementation.TreatmentMapper;
 import model.entity.Treatment;
 import constants.QueryConstants;
-import model.entity.UserData;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -74,7 +73,45 @@ public class TreatmentJdbcDao implements TreatmentDao {
     }
 
     @Override
-    public void update() {
+    public List<Treatment> findAllTreatmentsByTypesAndState(String firstType, String secondType, Boolean state) {
+        List<Treatment> treatments = new ArrayList<>();
 
+        try (PreparedStatement statement = connection.prepareStatement(QueryConstants.TREATMENTS_BY_TYPES_AND_STATE)) {
+            statement.setString(1, firstType);
+            statement.setString(2, secondType);
+            statement.setBoolean(3, state);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                Treatment treatment = treatmentMapper.extractFromResultSet(resultSet);
+
+                treatmentMapper.makeUnique(treatmentMap, treatment);
+            }
+            resultSet.close();
+
+            treatments = new ArrayList<>(treatmentMap.values());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return treatments;
+    }
+
+    @Override
+    public void update(Object field, Integer id, String query) {
+    }
+
+    @Override
+    public void updateTreatmentStateAndExecutor(Boolean state, Integer executorId, Integer id) {
+        try (PreparedStatement statement = connection.prepareStatement(QueryConstants.UPDATE_TREATMENT_STATE_AND_EXECUTOR)) {
+            statement.setBoolean(1, state);
+            statement.setInt(2, executorId);
+            statement.setInt(3, id);
+
+            statement.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

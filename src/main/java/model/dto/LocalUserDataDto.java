@@ -1,8 +1,8 @@
-package model;
+package model.dto;
 
 import model.entity.UserData;
 
-public class LocalUserDataDto {
+public class LocalUserDataDto implements LocalDataDto {
     private UserData userData;
     private String name;
     private String surname;

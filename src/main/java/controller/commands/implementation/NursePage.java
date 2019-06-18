@@ -13,7 +13,7 @@ public class NursePage implements Command {
 
     @Override
     public String execute(HttpServletRequest request) {
-        pageLocalization.defineLanguageForUserAccount(request);
+        pageLocalization.setAttributeWithLocalUserData(request);
         return "/WEB-INF/view/templates/medEmployeePage.jsp";
     }
 }

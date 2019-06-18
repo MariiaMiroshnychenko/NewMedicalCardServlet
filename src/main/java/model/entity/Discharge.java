@@ -1,6 +1,7 @@
 package model.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Discharge {
     private Integer id;
@@ -10,6 +11,21 @@ public class Discharge {
     private String finalDiagnosisUk;
     private String finalDiagnosisEn;
     private Integer doctorId;
+
+    private List<Treatment> treatments;
+
+    public Discharge(Integer id, Integer patientId, LocalDate beginDate,
+                     Integer endDate, String finalDiagnosisUk, String finalDiagnosisEn,
+                     Integer doctorId, List<Treatment> treatments) {
+        this.id = id;
+        this.patientId = patientId;
+        this.beginDate = beginDate;
+        this.endDate = endDate;
+        this.finalDiagnosisUk = finalDiagnosisUk;
+        this.finalDiagnosisEn = finalDiagnosisEn;
+        this.doctorId = doctorId;
+        this.treatments = treatments;
+    }
 
     public Discharge(Integer id, Integer patientId, LocalDate beginDate,
                      Integer endDate, String finalDiagnosisUk, String finalDiagnosisEn, Integer doctorId) {
@@ -89,5 +105,13 @@ public class Discharge {
 
     public void setDoctorId(Integer doctorId) {
         this.doctorId = doctorId;
+    }
+
+    public List<Treatment> getTreatments() {
+        return treatments;
+    }
+
+    public void setTreatments(List<Treatment> treatments) {
+        this.treatments = treatments;
     }
 }
