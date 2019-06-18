@@ -137,7 +137,21 @@
                             <hr>
                             <div class="tab-pane fade active in" id="discharge">
                                 <table class="table table-th-block">
-                                    <fmt:message key="message.see.discharge"/>
+                                    <tr>
+                                        <td>Початок лікування </td>
+                                        <td>${requestScope.beginDate}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Кінець лікування </td>
+                                        <td>${requestScope.endDate}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Список виконаних процедур </td>
+
+                                            <c:forEach var="treatment" items="${requestScope.treatmentList}">
+                                        <td> ${treatment.date} ${treatment.appointmentTypeUk}</td><br/>
+                                            </c:forEach>
+                                    </tr>
                                 </table>
                             </div>
                         </div>
@@ -146,6 +160,7 @@
             </div>
         </div>
     </div>
+</div>
     <footer class="footer fixed-bottom footer-dark bg-dark " style="height: 45px">
         <div class="container my-2" align="center">
             <p>©MIRMEDIS 2019</p>

@@ -9,6 +9,7 @@ public abstract class FactoryDao {
 
     public abstract UserDataDao getUserDataJdbcDao();
     public abstract TreatmentDao getTreatmentJdbcDao();
+    public abstract DischargeDao getDischargeJdbcDao();
 
     public static FactoryDao getInstance() {
         if (!factory.isPresent()) {

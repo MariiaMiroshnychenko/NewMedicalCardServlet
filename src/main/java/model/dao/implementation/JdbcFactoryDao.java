@@ -1,9 +1,6 @@
 package model.dao.implementation;
 
-import model.dao.ConnectionPool;
-import model.dao.FactoryDao;
-import model.dao.TreatmentDao;
-import model.dao.UserDataDao;
+import model.dao.*;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -20,6 +17,11 @@ public class JdbcFactoryDao extends FactoryDao {
     @Override
     public TreatmentDao getTreatmentJdbcDao() {
         return new TreatmentJdbcDao(getConnection());
+    }
+
+    @Override
+    public DischargeDao getDischargeJdbcDao() {
+        return new DischargeJdbcDao(getConnection());
     }
 
     private Connection getConnection() {

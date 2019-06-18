@@ -7,7 +7,7 @@ public class Discharge {
     private Integer id;
     private Integer patientId;
     private LocalDate beginDate;
-    private Integer endDate;
+    private LocalDate endDate;
     private String finalDiagnosisUk;
     private String finalDiagnosisEn;
     private Integer doctorId;
@@ -15,7 +15,7 @@ public class Discharge {
     private List<Treatment> treatments;
 
     public Discharge(Integer id, Integer patientId, LocalDate beginDate,
-                     Integer endDate, String finalDiagnosisUk, String finalDiagnosisEn,
+                     LocalDate endDate, String finalDiagnosisUk, String finalDiagnosisEn,
                      Integer doctorId, List<Treatment> treatments) {
         this.id = id;
         this.patientId = patientId;
@@ -28,7 +28,7 @@ public class Discharge {
     }
 
     public Discharge(Integer id, Integer patientId, LocalDate beginDate,
-                     Integer endDate, String finalDiagnosisUk, String finalDiagnosisEn, Integer doctorId) {
+                     LocalDate endDate, String finalDiagnosisUk, String finalDiagnosisEn, Integer doctorId) {
         this.id = id;
         this.patientId = patientId;
         this.beginDate = beginDate;
@@ -38,7 +38,7 @@ public class Discharge {
         this.doctorId = doctorId;
     }
 
-    public Discharge(Integer patientId, LocalDate beginDate, Integer endDate,
+    public Discharge(Integer patientId, LocalDate beginDate, LocalDate endDate,
                      String finalDiagnosisUk, String finalDiagnosisEn, Integer doctorId) {
         this.patientId = patientId;
         this.beginDate = beginDate;
@@ -75,11 +75,11 @@ public class Discharge {
         this.beginDate = beginDate;
     }
 
-    public Integer getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Integer endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 

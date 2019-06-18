@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<%@ taglib uri='http://java.sun.com/jsp/jstl/fmt' prefix='fmt'%>
+<%@ taglib uri='http://java.sun.com/jsp/jstl/fmt' prefix='fmt' %>
 
 <c:set var="language"
        value="${not empty param.language ? param.language : not empty language ? language : 'en'}"
@@ -22,8 +22,8 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <img src="https://rat.in.ua/wp-content/uploads/2012/10/1114_burenka_podorognik.png"
-             alt="logo" width="35" height="35">
+    <img src="https://rat.in.ua/wp-content/uploads/2012/10/1114_burenka_podorognik.png"
+         alt="logo" width="35" height="35">
     <button class="navbar-toggler mr-auto" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -38,7 +38,8 @@
                 </form>
             </li>
             <li class="nav-item active">
-                <a href="${pageContext.request.contextPath}/doctor-appointment" class="nav-link"><fmt:message key="navbar.appointments"/>  </a>
+                <a href="${pageContext.request.contextPath}/doctor-appointment" class="nav-link"><fmt:message
+                        key="navbar.appointments"/> </a>
             </li>
 
             <li class="nav-item active">
@@ -60,7 +61,7 @@
        aria-controls="v-pills-home" aria-selected="true"><fmt:message key="treatment"/></a>
 </div>
 <div class="tab-content" id="v-pills-tabContent">
-    <div class="tab-pane fade show active" id="v-pills-visit" role="tabpanel"
+    <div class="tab-pane fade show active" id="visit" role="tabpanel"
          aria-labelledby="v-pills-home-tab">
         <form method="post" action="${pageContext.request.contextPath}/doctorPage/doctor-appointment">
             <table>
@@ -128,6 +129,26 @@
                     </td>
                 </tr>
                 </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="tab-pane fade show active" id="final-diagnosis" role="tabpanel"
+         aria-labelledby="v-pills-home-tab">
+        <form method="post" action="${pageContext.request.contextPath}/doctorPage/doctor-appointment">
+            <table>
+                <tr>
+                    <td><fmt:message key="choose.patient.from.list"/></td>
+                    <td><select id="patients_with_login" name="patients_with_login">
+                        <c:forEach var="patient" items="${requestScope.localPatients}">
+                            <option value="${patient.userData.id}">${patient.surname} ${patient.name} ${patient.patronymic}
+                                (${patient.userData.login})
+                            </option>
+                        </c:forEach>
+                    </select></td>
+                </tr>
+                <tr>
+                    <td><button style="width: 230px" type="submit">Make final diagnosis</button></td>
+                </tr>
             </table>
         </form>
     </div>

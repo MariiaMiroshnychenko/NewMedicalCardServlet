@@ -14,7 +14,6 @@ public class TreatmentProcessorService implements TreatmentProcessor {
     public void addNewTreatment(Treatment treatment) {
         TreatmentDao treatmentDao = FactoryDao.getInstance().getTreatmentJdbcDao();
         treatmentDao.create(treatment);
-
         treatmentDao.close();
     }
 
@@ -41,5 +40,29 @@ public class TreatmentProcessorService implements TreatmentProcessor {
         TreatmentDao treatmentDao = FactoryDao.getInstance().getTreatmentJdbcDao();
         treatmentDao.updateTreatmentStateAndExecutor(state, executorId, id);
         treatmentDao.close();
+    }
+
+    @Override
+    public List<Treatment> getTreatmentsByPatientIdAndDates(Integer patientId) {
+        TreatmentDao treatmentDao = FactoryDao.getInstance().getTreatmentJdbcDao();
+        List<Treatment> treatments = treatmentDao.findAllTreatmentByPatientId(patientId);
+        treatmentDao.close();
+        return treatments;
+    }
+
+    @Override
+    public Treatment getFirstPatientTreatment(Integer patientId) {
+        TreatmentDao treatmentDao = FactoryDao.getInstance().getTreatmentJdbcDao();
+        Treatment treatment = treatmentDao.findFirstPatientTreatment(patientId);
+        treatmentDao.close();
+        return treatment;
+    }
+
+    @Override
+    public Treatment getDecsPatientTreatment(Integer patientId) {
+        TreatmentDao treatmentDao = FactoryDao.getInstance().getTreatmentJdbcDao();
+        Treatment treatment = treatmentDao.findPatientTreatmentDesc(patientId);
+        treatmentDao.close();
+        return treatment;
     }
 }
