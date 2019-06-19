@@ -1,0 +1,14 @@
+2019-06-19 13:17:07 INFO  [http-nio-8080-exec-5]: method started
+2019-06-19 13:17:07 INFO  [http-nio-8080-exec-5]: defined UI language
+2019-06-19 13:17:07 INFO  [http-nio-8080-exec-5]: method return page
+2019-06-19 13:17:33 INFO  [http-nio-8080-exec-7]: method started
+2019-06-19 13:17:33 INFO  [http-nio-8080-exec-7]: defined UI language
+2019-06-19 13:17:33 INFO  [http-nio-8080-exec-7]: Doctor make an assignment to treatment
+2019-06-19 13:17:33 INFO  [http-nio-8080-exec-7]: method return page
+2019-06-19 13:41:41 INFO  [http-nio-8080-exec-5]: method started
+2019-06-19 13:41:41 INFO  [http-nio-8080-exec-5]: defined UI language
+2019-06-19 13:41:41 INFO  [http-nio-8080-exec-5]: method return page
+2019-06-19 13:41:45 INFO  [http-nio-8080-exec-6]: method started
+2019-06-19 13:41:45 INFO  [http-nio-8080-exec-6]: defined UI language
+2019-06-19 13:41:45 INFO  [http-nio-8080-exec-6]: Doctor make an assignment to treatment
+2019-06-19 13:41:45 INFO  [http-nio-8080-exec-6]: method return page
