@@ -1,14 +1,16 @@
-package com.medical.controller.commands.implementation;
+package com.medical.controller.commands;
 
+import com.medical.container.RoleContainer;
+import com.medical.container.StringContainer;
+import com.medical.model.dao.FactoryDao;
 import com.medical.model.dto.LocalAssignmentDto;
 import com.medical.model.dto.LocalUserDataDto;
-import com.medical.model.dao.FactoryDao;
 import com.medical.model.entity.Treatment;
 import com.medical.model.entity.UserData;
-import com.medical.model.services.UserDataProcessor;
 import com.medical.model.services.TreatmentProcessor;
-import com.medical.model.services.implementation.UserDataService;
+import com.medical.model.services.UserDataProcessor;
 import com.medical.model.services.implementation.TreatmentProcessorService;
+import com.medical.model.services.implementation.UserDataService;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -75,7 +77,7 @@ public class PageLocalization {
     public void defineLanguageForAppointmentPage(HttpServletRequest request) {
         List<LocalUserDataDto> localUserDataDtos = new ArrayList<>();
 
-        getPatientData("patient")
+        getPatientData(RoleContainer.ROLE_PATIENT)
                 .forEach(pData -> localUserDataDtos
                         .add(getLocalizedPersonData(defineLocale(request),
                                                     pData)));
@@ -97,7 +99,7 @@ public class PageLocalization {
     public void defineLanguageForNurseProcedurePage(HttpServletRequest request) {
         List<LocalAssignmentDto> localAssignmentDtos = new ArrayList<>();
 
-        getAllEnableTreatments("Pills", "Procedure", true)
+        getAllEnableTreatments(StringContainer.PROCEDURE_TYPE_PILLS, StringContainer.PROCEDURE_TYPE_PROCEDURE, true)
                 .forEach(aData -> localAssignmentDtos
                         .add(getLocalizedAssignment(defineLocale(request),
                                 aData)));

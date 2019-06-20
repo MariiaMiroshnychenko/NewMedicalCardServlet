@@ -1,9 +1,9 @@
 package com.medical.model.dao.implementation;
 
+import com.medical.container.QueryContainer;
 import com.medical.model.dao.TreatmentDao;
 import com.medical.model.dao.mapper.implementation.TreatmentMapper;
 import com.medical.model.entity.Treatment;
-import com.medical.constants.QueryConstant;
 
 import java.sql.*;
 import java.sql.Date;
@@ -14,9 +14,9 @@ public class TreatmentJdbcDao implements TreatmentDao {
     private TreatmentMapper treatmentMapper = new TreatmentMapper();
     private Map<Integer, Treatment> treatmentMap = new HashMap<>();
 
-    public Connection connection;
+    private Connection connection;
 
-    public TreatmentJdbcDao(Connection connection) {
+    TreatmentJdbcDao(Connection connection) {
         this.connection = connection;
     }
 
@@ -31,14 +31,14 @@ public class TreatmentJdbcDao implements TreatmentDao {
 
     @Override
     public void create(Treatment treatment) {
-        try (PreparedStatement statement = connection.prepareStatement(QueryConstant.ADD_TREATMENT)) {
+        try (PreparedStatement statement = connection.prepareStatement(QueryContainer.ADD_TREATMENT)) {
             statement.setInt(1, treatment.getPatientId());
             statement.setDate(2, Date.valueOf(treatment.getDate()));
             statement.setString(3, treatment.getDiagnosisUk());
             statement.setString(4, treatment.getDiagnosisEn());
             statement.setString(5, treatment.getAppointmentTypeUk());
             statement.setString(6, treatment.getAppointmentTypeEn());
-            statement.setInt (7, treatment.getDocId());
+            statement.setInt(7, treatment.getDocId());
             statement.setBoolean(8, treatment.getState());
 
             statement.execute();
@@ -48,11 +48,16 @@ public class TreatmentJdbcDao implements TreatmentDao {
         }
     }
 
-    private List<Treatment> allTreatmentsByOneField(Object field, String query) {
+    private List<Treatment> allTreatmentsByOneField(String query, Object... field) {
         List<Treatment> treatments = new ArrayList<>();
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setObject(1, field);
+
+            int parameterIndex = 1;
+            for (Object o : field) {
+                statement.setObject(parameterIndex, o);
+                parameterIndex++;
+            }
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -69,64 +74,67 @@ public class TreatmentJdbcDao implements TreatmentDao {
         }
         return treatments;
     }
+
     @Override
     public List<Treatment> findAllTreatmentsByState(Boolean state) {
-        return allTreatmentsByOneField(state, QueryConstant.TREATMENTS_BY_STATE);
+        return allTreatmentsByOneField(QueryContainer.TREATMENTS_BY_STATE, state);
     }
 
     @Override
     public List<Treatment> findAllTreatmentByPatientId(Integer patientId) {
-        return allTreatmentsByOneField(patientId, QueryConstant.TREATMENTS_BY_PATIENT_ID);
+        return allTreatmentsByOneField(QueryContainer.TREATMENTS_BY_PATIENT_ID, patientId);
     }
 
     @Override
     public List<Treatment> findAllTreatmentsByTypesAndState(String firstType, String secondType, Boolean state) {
-        List<Treatment> treatments = new ArrayList<>();
-
-        try (PreparedStatement statement = connection.prepareStatement(QueryConstant.TREATMENTS_BY_TYPES_AND_STATE)) {
-            statement.setString(1, firstType);
-            statement.setString(2, secondType);
-            statement.setBoolean(3, state);
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Treatment treatment = treatmentMapper.extractFromResultSet(resultSet);
-
-                treatmentMapper.makeUnique(treatmentMap, treatment);
-            }
-            resultSet.close();
-
-            treatments = new ArrayList<>(treatmentMap.values());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return treatments;
+        return allTreatmentsByOneField(QueryContainer.TREATMENTS_BY_TYPES_AND_STATE, firstType, secondType, state);
+//        List<Treatment> treatments = new ArrayList<>();
+//
+//        try (PreparedStatement statement = connection.prepareStatement(QueryContainer.TREATMENTS_BY_TYPES_AND_STATE)) {
+//            statement.setString(1, firstType);
+//            statement.setString(2, secondType);
+//            statement.setBoolean(3, state);
+//
+//            ResultSet resultSet = statement.executeQuery();
+//
+//            while (resultSet.next()) {
+//                Treatment treatment = treatmentMapper.extractFromResultSet(resultSet);
+//
+//                treatmentMapper.makeUnique(treatmentMap, treatment);
+//            }
+//            resultSet.close();
+//
+//            treatments = new ArrayList<>(treatmentMap.values());
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return treatments;
     }
 
     @Override
     public List<Treatment> findPatientTreatmentsByIdAndDates(Integer patientId, LocalDate beginDate, LocalDate endDate) {
-        List<Treatment> treatments = new ArrayList<>();
-
-        try (PreparedStatement statement = connection.prepareStatement(QueryConstant.TREATMENT_IN_DATE_BETWEEN)) {
-            statement.setInt(1, patientId);
-            statement.setDate(2, Date.valueOf(beginDate));
-            statement.setDate(3, Date.valueOf(endDate));
-
-            ResultSet resultSet = statement.executeQuery();
-
-            while (resultSet.next()) {
-                Treatment treatment = treatmentMapper.extractFromResultSet(resultSet);
-
-                treatmentMapper.makeUnique(treatmentMap, treatment);
-            }
-            resultSet.close();
-
-            treatments = new ArrayList<>(treatmentMap.values());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return treatments;
+        return allTreatmentsByOneField(QueryContainer.TREATMENT_IN_DATE_BETWEEN, patientId, beginDate, endDate);
+//        List<Treatment> treatments = new ArrayList<>();
+//
+//        try (PreparedStatement statement = connection.prepareStatement(QueryContainer.TREATMENT_IN_DATE_BETWEEN)) {
+//            statement.setInt(1, patientId);
+//            statement.setDate(2, Date.valueOf(beginDate));
+//            statement.setDate(3, Date.valueOf(endDate));
+//
+//            ResultSet resultSet = statement.executeQuery();
+//
+//            while (resultSet.next()) {
+//                Treatment treatment = treatmentMapper.extractFromResultSet(resultSet);
+//
+//                treatmentMapper.makeUnique(treatmentMap, treatment);
+//            }
+//            resultSet.close();
+//
+//            treatments = new ArrayList<>(treatmentMap.values());
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return treatments;
     }
 
     @Override
@@ -135,7 +143,7 @@ public class TreatmentJdbcDao implements TreatmentDao {
 
     @Override
     public void updateTreatmentStateAndExecutor(Boolean state, Integer executorId, Integer id) {
-        try (PreparedStatement statement = connection.prepareStatement(QueryConstant.UPDATE_TREATMENT_STATE_AND_EXECUTOR)) {
+        try (PreparedStatement statement = connection.prepareStatement(QueryContainer.UPDATE_TREATMENT_STATE_AND_EXECUTOR)) {
             statement.setBoolean(1, state);
             statement.setInt(2, executorId);
             statement.setInt(3, id);
@@ -167,13 +175,14 @@ public class TreatmentJdbcDao implements TreatmentDao {
         }
         return treatment;
     }
+
     @Override
     public Treatment findFirstPatientTreatment(Integer patientId) {
-        return findTreatmentForPatient(patientId, QueryConstant.FIRST_TREATMENT);
+        return findTreatmentForPatient(patientId, QueryContainer.FIRST_TREATMENT);
     }
 
     @Override
     public Treatment findPatientTreatmentDesc(Integer patientId) {
-        return findTreatmentForPatient(patientId, QueryConstant.TREATMENT_DESC_LIMIT);
+        return findTreatmentForPatient(patientId, QueryContainer.TREATMENT_DESC_LIMIT);
     }
 }

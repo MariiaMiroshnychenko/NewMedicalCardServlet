@@ -1,6 +1,6 @@
-package com.medical.constants;
+package com.medical.container;
 
-public interface QueryConstant {
+public interface QueryContainer {
     String TREATMENTS_BY_STATE = "SELECT * FROM treatment WHERE state=?";
     String TREATMENTS_BY_TYPES_AND_STATE = "SELECT * FROM treatment WHERE assignment_type_en=? OR assignment_type_en=? AND state=?";
     String TREATMENTS_BY_PATIENT_ID = "select * from treatment where patient_id=?";

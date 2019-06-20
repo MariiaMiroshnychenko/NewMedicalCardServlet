@@ -1,7 +1,9 @@
 package com.medical.controller.servlet;
 
 import com.medical.controller.commands.Command;
+import com.medical.controller.commands.PageLocalization;
 import com.medical.controller.commands.implementation.*;
+import org.apache.log4j.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,7 +13,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class EntityServlet extends HttpServlet {
+public class MainServlet extends HttpServlet {
+    private static final Logger LOGGER = Logger.getLogger(MainServlet.class.getSimpleName());
     private Map<String, Command> commands;
 
     @Override
@@ -37,8 +40,18 @@ public class EntityServlet extends HttpServlet {
 
         path = path.replaceAll(".*/", "");
         path = path.replaceAll("\\?*", "");
-        Command command = commands.getOrDefault(path, (r) -> "/WEB-INF/view/templates/login.jsp");
-        String page = command.execute(req);
+
+        Command command = commands.getOrDefault(path, commands.get("login"));
+        String page;
+        String role = (String) req.getSession().getAttribute("role");
+
+        if (command.checkAuthority(role)) {
+            page = command.execute(req);
+        } else {
+            LOGGER.error("Attempt of moving to forbidden page");
+            page = "/WEB-INF/view/templates/403.jsp";
+
+        }
         req.getRequestDispatcher(page).forward(req, resp);
     }
 

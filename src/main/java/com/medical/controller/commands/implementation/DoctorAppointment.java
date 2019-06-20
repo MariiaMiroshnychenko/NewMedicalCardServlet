@@ -1,6 +1,10 @@
 package com.medical.controller.commands.implementation;
 
+import com.medical.container.PagesContainer;
+import com.medical.container.RoleContainer;
+import com.medical.container.StringContainer;
 import com.medical.controller.commands.Command;
+import com.medical.controller.commands.PageLocalization;
 import com.medical.model.entity.Discharge;
 import com.medical.model.entity.Treatment;
 import com.medical.model.entity.UserData;
@@ -12,9 +16,11 @@ import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class DoctorAppointment implements Command {
+    private String[] hasAuthority = {RoleContainer.ROLE_DOCTOR};
     private final static Logger LOGGER = Logger.getLogger(DoctorAppointment.class.getSimpleName());
 
     private PageLocalization pageLocalization;
@@ -25,27 +31,19 @@ public class DoctorAppointment implements Command {
         this.pageLocalization = pageLocalization;
     }
 
-    public TreatmentProcessor getTreatmentProcessor() {
+    private TreatmentProcessor getTreatmentProcessor() {
         return treatmentProcessor;
     }
 
-    public void setTreatmentProcessor(TreatmentProcessor treatmentProcessor) {
+    private void setTreatmentProcessor(TreatmentProcessor treatmentProcessor) {
         this.treatmentProcessor = treatmentProcessor;
     }
 
-    public PageLocalization getPageLocalization() {
-        return pageLocalization;
-    }
-
-    public void setPageLocalization(PageLocalization pageLocalization) {
-        this.pageLocalization = pageLocalization;
-    }
-
-    public DischargeProcessor getDischargeProcessor() {
+    private DischargeProcessor getDischargeProcessor() {
         return dischargeProcessor;
     }
 
-    public void setDischargeProcessor(DischargeProcessor dischargeProcessor) {
+    private void setDischargeProcessor(DischargeProcessor dischargeProcessor) {
         this.dischargeProcessor = dischargeProcessor;
     }
 
@@ -69,17 +67,22 @@ public class DoctorAppointment implements Command {
             Integer userFinalDiagnosis = Integer.valueOf(patient);
             getDischargeProcessor().addDischarge(
                     new Discharge(userFinalDiagnosis, getTreatmentProcessor().getFirstPatientTreatment(patientId).getDate(),
-                    getTreatmentProcessor().getDecsPatientTreatment(patientId).getDate(), "Фінальний діагноз",
-                    "Final diagnosis", doctor.getId()));
+                    getTreatmentProcessor().getDecsPatientTreatment(patientId).getDate(), StringContainer.FINAL_DIAGNOSIS_UK,
+                    StringContainer.FINAL_DIAGNOSIS_EN, doctor.getId()));
             LOGGER.info("Doctor made final diagnosis");
         } else if (Objects.nonNull(appTypeUk) && Objects.nonNull(appTypeEn)) {
             Integer user = Integer.valueOf(request.getParameter("patients"));
 
             LOGGER.info("Doctor make an assignment to treatment");
             new TreatmentProcessorService().addNewTreatment(new Treatment(user, LocalDate.now(),
-                    "Діагноз", "Diagnosis", appTypeUk, appTypeEn, doctor.getId(), true));
+                    StringContainer.DIAGNOSIS_UK, StringContainer.DIAGNOSIS_EN, appTypeUk, appTypeEn, doctor.getId(), true));
         }
         LOGGER.info("method return page");
-        return "/WEB-INF/view/templates/doctor-appointments.jsp";
+        return PagesContainer.PAGE_DOCTOR_APPOINTMENT;
+    }
+
+    @Override
+    public boolean checkAuthority(String role) {
+        return Arrays.asList(hasAuthority).contains(role);
     }
 }

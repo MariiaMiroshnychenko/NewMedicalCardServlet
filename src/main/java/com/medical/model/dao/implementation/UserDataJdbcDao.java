@@ -1,6 +1,6 @@
 package com.medical.model.dao.implementation;
 
-import com.medical.constants.QueryConstant;
+import com.medical.container.QueryContainer;
 import com.medical.model.dao.UserDataDao;
 import com.medical.model.dao.mapper.implementation.UserDataMapper;
 import com.medical.model.entity.UserData;
@@ -15,9 +15,9 @@ public class UserDataJdbcDao implements UserDataDao {
     private UserDataMapper userDataMapper = new UserDataMapper();
     private Map<Integer, UserData> personalRegDataMap = new HashMap<>();
 
-    public Connection connection;
+    private Connection connection;
 
-    public UserDataJdbcDao(Connection connection) {
+    UserDataJdbcDao(Connection connection) {
         this.connection = connection;
     }
 
@@ -43,19 +43,19 @@ public class UserDataJdbcDao implements UserDataDao {
     }
     @Override
     public UserData findUserDataByLogin(String login) {
-        return findUserDataByField(login, QueryConstant.USER_DATA_BY_LOGIN);
+        return findUserDataByField(login, QueryContainer.USER_DATA_BY_LOGIN);
     }
 
     @Override
     public UserData findUserDataById(Integer id) {
-        return findUserDataByField(id, QueryConstant.USER_DATA_BY_ID);
+        return findUserDataByField(id, QueryContainer.USER_DATA_BY_ID);
     }
 
     @Override
     public List<UserData> findUserDataByRole(String role) {
         List<UserData> userData = new ArrayList<>();
 
-        try (PreparedStatement statement = connection.prepareStatement(QueryConstant.USER_DATA_BY_ROLE_TITLE)) {
+        try (PreparedStatement statement = connection.prepareStatement(QueryContainer.USER_DATA_BY_ROLE_TITLE)) {
             statement.setString(1, role);
             ResultSet resultSet = statement.executeQuery();
 
@@ -83,7 +83,7 @@ public class UserDataJdbcDao implements UserDataDao {
 
     @Override
     public void create(UserData userData) {
-        try (PreparedStatement statement = connection.prepareStatement(QueryConstant.REGISTER_PERSON)) {
+        try (PreparedStatement statement = connection.prepareStatement(QueryContainer.REGISTER_PERSON)) {
             statement.setString(1, userData.getSurnameUk());
             statement.setString(2, userData.getSurnameEn());
             statement.setString(3, userData.getNameUk());

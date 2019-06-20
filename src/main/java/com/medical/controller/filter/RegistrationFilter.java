@@ -1,6 +1,7 @@
 package com.medical.controller.filter;
 
-import com.medical.constants.RegexConstant;
+import com.medical.container.ErrorMessageContainer;
+import com.medical.container.RegexContainer;
 import com.medical.exception.IncorrectInputException;
 import com.medical.model.dao.FactoryDao;
 import com.medical.model.entity.UserData;
@@ -37,7 +38,14 @@ public class RegistrationFilter implements Filter {
         final String encodingPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
         try {
-            checkData(surnameUk, RegexConstant.NAME_SURNAME_REGEX_UK, INCORRECT_NAME_UKR);
+            checkData(surnameUk, RegexContainer.NAME_SURNAME_REGEX_UK, ErrorMessageContainer.INCORRECT_SURNAME);
+            checkData(surnameEn, RegexContainer.NAME_SURNAME_REGEX_EN, ErrorMessageContainer.INCORRECT_SURNAME);
+            checkData(nameUk, RegexContainer.NAME_SURNAME_REGEX_UK, ErrorMessageContainer.INCORRECT_NAME);
+            checkData(nameEn, RegexContainer.NAME_SURNAME_REGEX_EN, ErrorMessageContainer.INCORRECT_NAME);
+            checkData(patronymicUk, RegexContainer.NAME_SURNAME_REGEX_UK, ErrorMessageContainer.INCORRECT_PATRONYMIC);
+            checkData(patronymicEn, RegexContainer.NAME_SURNAME_REGEX_EN, ErrorMessageContainer.INCORRECT_PATRONYMIC);
+            checkData(login, RegexContainer.LOGIN_PASSWORD_REGEX, ErrorMessageContainer.INCORRECT_LOGIN);
+            checkData(password, RegexContainer.LOGIN_PASSWORD_REGEX, ErrorMessageContainer.INCORRECT_PASSWORD);
         } catch (IncorrectInputException exception) {
             request.setAttribute("error", exception.getMessage());
             request.getRequestDispatcher("WEB-INF/view/templates/registration.jsp").forward(request, response);
@@ -56,7 +64,6 @@ public class RegistrationFilter implements Filter {
         userData.setPhoto("http://teplota.kh.ua/wp-content/uploads/2013/02/ЧЕЛОВЕЧЕК.jpg");
 
         userDataProcessor.toSignUp(userData);
-
         request.getRequestDispatcher("/WEB-INF/view/templates/login.jsp").forward(request, response);
     }
 

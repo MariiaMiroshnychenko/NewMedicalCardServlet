@@ -1,6 +1,6 @@
 package com.medical.model.dao.implementation;
 
-import com.medical.constants.QueryConstant;
+import com.medical.container.QueryContainer;
 import com.medical.model.dao.DischargeDao;
 import com.medical.model.entity.Discharge;
 
@@ -10,9 +10,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class DischargeJdbcDao implements DischargeDao {
-    public Connection connection;
+    private Connection connection;
 
-    public DischargeJdbcDao(Connection connection) {
+    DischargeJdbcDao(Connection connection) {
         this.connection = connection;
     }
 
@@ -27,7 +27,7 @@ public class DischargeJdbcDao implements DischargeDao {
 
     @Override
     public void create(Discharge discharge) {
-        try (PreparedStatement statement = connection.prepareStatement(QueryConstant.ADD_DISCHARGE)) {
+        try (PreparedStatement statement = connection.prepareStatement(QueryContainer.ADD_DISCHARGE)) {
             statement.setInt(1, discharge.getPatientId());
             statement.setDate(2, Date.valueOf(discharge.getBeginDate()));
             statement.setDate(3, Date.valueOf(discharge.getEndDate()));

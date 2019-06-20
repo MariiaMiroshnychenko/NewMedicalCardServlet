@@ -1,5 +1,6 @@
 package com.medical.model.dao;
 
+import com.medical.container.DataBaseConnectionContainer;
 import org.apache.commons.dbcp.BasicDataSource;
 
 import javax.sql.DataSource;
@@ -12,10 +13,10 @@ public class ConnectionPool {
             synchronized (ConnectionPool.class) {
                 if (dataSource == null) {
                     BasicDataSource ds = new BasicDataSource();
-                    ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
-                    ds.setUrl("jdbc:mysql://localhost:3306/medicine_v2?serverTimezone=UTC");
-                    ds.setUsername("root");
-                    ds.setPassword("root");
+                    ds.setDriverClassName(DataBaseConnectionContainer.DRIVER_NAME);
+                    ds.setUrl(DataBaseConnectionContainer.URL);
+                    ds.setUsername(DataBaseConnectionContainer.USERNAME);
+                    ds.setPassword(DataBaseConnectionContainer.PASSWORD);
                     ds.setMinIdle(5);
                     ds.setMaxIdle(10);
                     ds.setMaxOpenPreparedStatements(100);

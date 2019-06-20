@@ -1,8 +1,10 @@
 package com.medical.controller.filter;
 
+import com.medical.container.PagesContainer;
+import com.medical.container.RoleContainer;
 import com.medical.controller.commands.implementation.DoctorPage;
 import com.medical.controller.commands.implementation.NursePage;
-import com.medical.controller.commands.implementation.PageLocalization;
+import com.medical.controller.commands.PageLocalization;
 import com.medical.controller.commands.implementation.PatientPage;
 import com.medical.model.dao.UserDataDao;
 import com.medical.model.entity.UserData;
@@ -53,20 +55,20 @@ public class AuthenticationFilter implements Filter {
                 redirectToAccount(request, response, userData.getRole());
             }
         } else {
-            request.getRequestDispatcher("/WEB-INF/com.medical.constants/templates/login.jsp").forward(request, response);
+            request.getRequestDispatcher(PagesContainer.PAGE_LOGIN).forward(request, response);
         }
     }
 
     private void redirectToAccount(final HttpServletRequest request, final HttpServletResponse response,
                                    final String role) throws ServletException, IOException {
         switch (role) {
-            case ("patient"):
+            case (RoleContainer.ROLE_PATIENT):
                 PatientPage patientPage = new PatientPage(new PageLocalization());
                 request.getRequestDispatcher(patientPage.execute(request)).forward(request, response);
-            case ("doctor"):
+            case (RoleContainer.ROLE_DOCTOR):
                 DoctorPage doctorPage = new DoctorPage(new PageLocalization());
                 request.getRequestDispatcher(doctorPage.execute(request)).forward(request, response);
-            case ("nurse"):
+            case (RoleContainer.ROLE_NURSE):
                 NursePage nursePage = new NursePage(new PageLocalization());
                 request.getRequestDispatcher(nursePage.execute(request)).forward(request, response);
         }
@@ -75,4 +77,6 @@ public class AuthenticationFilter implements Filter {
     @Override
     public void destroy() {
     }
+
+
 }

@@ -137,21 +137,30 @@
                             <hr>
                             <div class="tab-pane fade active in" id="discharge">
                                 <table class="table table-th-block">
+                                    <tbody>
                                     <tr>
                                         <td>Початок лікування </td>
                                         <td>${requestScope.beginDate}</td>
-                                    </tr>
-                                    <tr>
+                                        <td></td>
                                         <td>Кінець лікування </td>
                                         <td>${requestScope.endDate}</td>
                                     </tr>
                                     <tr>
-                                        <td>Список виконаних процедур </td>
-
-                                            <c:forEach var="treatment" items="${requestScope.treatmentList}">
-                                        <td> ${treatment.date} ${treatment.appointmentTypeUk}</td><br/>
-                                            </c:forEach>
+                                        <td></td>
+                                        <td>Список</td>
+                                        <td>виконаних</td>
+                                        <td>процедур</td>
+                                        <td></td>
                                     </tr>
+                                    <tr>
+                                        <c:forEach var="treatment" items="${requestScope.treatmentList}">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                            <td>${treatment.date} ${treatment.appointmentTypeUk}</td></tr>
+                                            </c:forEach>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

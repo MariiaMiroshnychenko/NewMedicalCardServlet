@@ -1,6 +1,6 @@
-package com.medical.constants;
+package com.medical.container;
 
-public interface RegexConstant {
+public interface RegexContainer {
     String NAME_SURNAME_REGEX_UK = "[[А-ЯҐІЇЄ]&&[^ЁЫЭЪ]][[а-яґєії\\']&&[^ёыэъ]]{1,18}[[а-яґєії]&&[^ёыэъ]]";
     String NAME_SURNAME_REGEX_EN = "[A-Z][a-z]+";
     String LOGIN_PASSWORD_REGEX = "[A-Za-z0-9_@]{8,20}";

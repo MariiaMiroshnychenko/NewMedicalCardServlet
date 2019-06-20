@@ -2,7 +2,6 @@ package com.medical.model.dao.mapper.implementation;
 
 import com.medical.model.dao.mapper.MainMapper;
 import com.medical.model.entity.Discharge;
-import com.medical.model.entity.Treatment;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
